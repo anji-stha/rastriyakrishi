@@ -139,4 +139,56 @@ class AdminController extends Controller
             'type' => $type
         ]);
     }
+
+    public function search($registrationNumber)
+    {
+        $user = NewUser::where('registration_number', $registrationNumber)->first();
+
+        if ($user) {
+            return response()->json([
+                'success' => true,
+                'data' => $user->only([
+                    'permanent_district',
+                    'permanent_municipality',
+                    'permanent_tole',
+                    'permanent_ward_no',
+                    'temporary_district',
+                    'temporary_house_no',
+                    'temporary_municipality',
+                    'temporary_province',
+                    'temporary_tole',
+                    'temporary_ward_no',
+                    'federal_district',
+                    'federal_house_no',
+                    'federal_municipality',
+                    'federal_province',
+                    'federal_tole',
+                    'federal_ward_no',
+                    'email',
+                    'mobile',
+                    'father_name',
+                    'relation_type',
+                    'grandfather_name',
+                    'spouse_relation',
+                    'spouse_name',
+                    'payment_method',
+                    'pan',
+                    'education_level',
+                    'degree',
+                    'share',
+                    'investment_amount',
+                    'amount_in_words',
+                    'profession',
+                    'organization',
+                    'organization_address',
+                    'accept_terms',
+                ])
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'No user found with this registration number.',
+        ]);
+    }
 }

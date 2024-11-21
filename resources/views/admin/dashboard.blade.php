@@ -45,6 +45,11 @@
                             data-heading="New Users">New Registration
                             Data</a>
                     </li>
+                    <li class="list-group-item">
+                        <a href="{{ route('notices.index') }}" id="load-notice" class="btn btn-info">
+                            Notices List
+                        </a>
+                    </li>
                 </ul>
             </aside>
 

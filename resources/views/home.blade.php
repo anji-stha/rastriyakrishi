@@ -238,15 +238,19 @@
                     </fieldset>
                 </div>
             </div>
-
-            <div id="existing-form-fields" class="container mt-4">
-                {{-- Registration Number --}}
-                <div id="existing-fields" class="form-group">
-                    <label for="registration_number">Registration Number:</label>
+            {{-- Registration Number --}}
+            <div id="reg_number_field" class="container mt-4 form-group">
+                <label for="registration_number">Registration Number:</label>
+                <div class="input-group">
                     <input type="text" class="form-control" id="registration_number" name="registration_number"
                         placeholder="Enter registration number">
-                    <span class="text-danger error-message" id="error-registration_number"></span>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" id="search-registration">Search</button>
+                    </div>
                 </div>
+                <span class="text-danger error-message" id="error-registration_number"></span>
+            </div>
+            <div id="existing-form-fields" class="container mt-4">
                 <!-- Address Details Section -->
                 <fieldset class="border p-4 mb-4">
                     <legend class="w-auto">3. Address Details</legend>
@@ -561,7 +565,7 @@
             </div>
 
             <!-- Submit Button -->
-            <div class="container mt-4">
+            <div class="container mt-4" id="submit_button">
                 <button type="submit" class="btn btn-primary submit-btn">Submit Form</button>
             </div>
         </div>
@@ -626,24 +630,30 @@
         document.addEventListener("DOMContentLoaded", function() {
             const formContainer = document.getElementById("form-container");
             const newFormFields = document.getElementById("new-form-fields");
+            const existingField = document.getElementById("existing-form-fields");
             const existingRadio = document.getElementById("existing_registration");
             const newRadio = document.getElementById("new_registration");
-            const existingFields = document.getElementById("existing-fields");
+            const regNumberField = document.getElementById("reg_number_field");
             const registeredNumberInput = document.getElementById("registration_number");
+            const submitButton = document.getElementById("submit_button");
 
             formContainer.style.display = "none";
-            existingFields.style.display = "none";
+            regNumberField.style.display = "none";
 
             function toggleFormVisibility() {
                 formContainer.style.display = "block";
-                existingFields.style.display = "none";
+                regNumberField.style.display = "none";
                 if (existingRadio.checked) {
                     newFormFields.style.display = "none";
-                    existingFields.style.display = "block";
+                    regNumberField.style.display = "block";
+                    existingField.style.display = "none";
+                    submitButton.style.display = "none";
                     registeredNumberInput.required = true;
                 } else {
                     newFormFields.style.display = "block";
-                    existingFields.style.display = "none";
+                    regNumberField.style.display = "none";
+                    existingField.style.display = "block";
+                    submitButton.style.display = "block";
                     registeredNumberInput.required = false;
                 }
             }
@@ -684,7 +694,6 @@
                             behavior: 'smooth'
                         });
                         formContainer.style.display = "none";
-                        // location.reload();
                     })
                     .catch(error => {
                         // Clear previous error messages
@@ -717,6 +726,76 @@
                         }
                     });
             });
+        });
+        document.getElementById('search-registration').addEventListener('click', async function() {
+            const registrationNumber = document.getElementById('registration_number').value;
+            const errorMessage = document.getElementById('error-registration_number');
+
+            errorMessage.textContent = '';
+
+            if (registrationNumber.trim() === '') {
+                errorMessage.textContent = 'Please enter a registration number.';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/search-registration/${registrationNumber}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const fields = data.data;
+
+                    console.log(fields)
+                    Object.keys(fields).forEach(key => {
+                        const fieldValue = fields[key];
+
+                        const radios = document.getElementsByName(key);
+                        if (radios.length > 0) {
+                            radios.forEach(radio => {
+                                radio.checked = (radio.value === fieldValue);
+                            });
+                        }
+
+                        const inputField = document.getElementById(key);
+                        if (inputField) {
+                            if (inputField.tagName === 'INPUT' || inputField.tagName === 'TEXTAREA') {
+                                inputField.value = fieldValue || '';
+                            } else if (inputField.tagName === 'SELECT') {
+                                inputField.value = fieldValue || '';
+                            }
+                        }
+
+                        const checkbox = document.getElementById(key);
+                        if (checkbox && checkbox.type === 'checkbox') {
+                            checkbox.checked = Boolean(fieldValue);
+                        }
+                    });
+
+                    const existingField = document.getElementById('existing-form-fields');
+                    const submitButton = document.getElementById("submit_button");
+                    const formContainer = document.getElementById("form-container");
+
+                    if (existingField) {
+                        formContainer.style.display = "block";
+                        existingField.style.display = "block";
+                        submitButton.style.display = "block";
+
+                    }
+                } else {
+                    errorMessage.textContent = data.message || 'No data found.';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.textContent = 'An error occurred. Please try again.';
+            }
         });
     </script>
 @endsection

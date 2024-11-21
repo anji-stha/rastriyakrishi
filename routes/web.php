@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\NoticeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::post('/feedback', [FeedbackController::class, 'submit'])->name('feedback.submit');
+Route::get('/search-registration/{registrationNumber}', [AdminController::class, 'search'])->name('search.registration');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
@@ -43,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/user/{id}/{type}', [AdminController::class, 'show'])->name('admin.show');
     Route::get('/admin/newusers', [AdminController::class, 'getNewUsers'])->name('admin.newusers');
     Route::get('/admin/existingusers', [AdminController::class, 'getExistingUsers'])->name('admin.existingusers');
+    Route::resource('/admin/notices', NoticeController::class);
 });
 
 Route::get('admin/login', [AdminLoginController::class, 'showLoginForm'])->name('login');

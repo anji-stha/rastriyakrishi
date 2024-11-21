@@ -1,6 +1,6 @@
 @extends('layout.main')
 @section('content')
-    <div class="container">
+    <div class="container mt-5">
         <h2 class="text-center mb-4">Admin Login</h2>
 
         <form action="{{ route('authenticate') }}" method="POST" class="p-4 border rounded shadow-sm">
