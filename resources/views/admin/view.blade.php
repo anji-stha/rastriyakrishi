@@ -538,7 +538,7 @@
                     <label for="signature">Signature</label>
                     <div class="col-md-3">
                         @if ($user->signature)
-                            <div class="md-3">
+                            <div class="mb-3">
                                 <img src="{{ asset('storage/' . $user->signature) }}" alt="Signature"
                                     style="max-width: 100%;">
                             </div>

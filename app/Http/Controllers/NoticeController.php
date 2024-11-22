@@ -12,7 +12,7 @@ class NoticeController extends Controller
     public function index()
     {
         // Paginate notices and pass them to the view
-        $notices = Notice::orderBy('created_at')->paginate(5);
+        $notices = Notice::orderBy('created_at')->paginate(10);
         return view('notices.index', compact('notices'));
     }
 
