@@ -571,6 +571,12 @@
         </div>
     </form>
 
+    <div class="container mt-5">
+        <a href="{{ route('faqs.public.index') }}" target="_blank" class="btn btn-info">
+            View FAQs
+        </a>
+    </div>
+
     {{-- footer --}}
     <div class="footer mt-5">
         <div class="container">

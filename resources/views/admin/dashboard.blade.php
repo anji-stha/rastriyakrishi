@@ -50,6 +50,11 @@
                             Notices List
                         </a>
                     </li>
+                    <li class="list-group-item">
+                        <a href="{{ route('faqs.index') }}" id="load-faqs" class="btn btn-info">
+                            FAQs List
+                        </a>
+                    </li>
                 </ul>
             </aside>
 
