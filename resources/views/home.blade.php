@@ -225,11 +225,11 @@
                                         </div>
 
                                         <div class="col-md-6 form-group">
-                                            <label for="birth_citizenship">Birth Certificate <small
+                                            <label for="birth_certificate">Birth Certificate <small
                                                     class="text-muted">(Max size: 2MB)</small></label>
-                                            <input type="file" class="form-control" id="birth_citizenship"
-                                                name="birth_citizenship" value="{{ old('birth_citizenship') }}">
-                                            <span class="text-danger error-message" id="error-birth_citizenship"></span>
+                                            <input type="file" class="form-control" id="birth_certificate"
+                                                name="birth_certificate" value="{{ old('birth_certificate') }}">
+                                            <span class="text-danger error-message" id="error-birth_certificate"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -682,7 +682,6 @@
                 e.preventDefault();
 
                 const formData = new FormData(form);
-                console.log(...formData)
 
                 fetch(form.action, {
                         method: 'POST',

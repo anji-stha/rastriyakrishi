@@ -74,10 +74,17 @@
                             <div class="form-group">
                                 <label for="photo">Photo</label>
                                 @if ($user->photo)
-                                    <img src="{{ asset('storage/' . $user->photo) }}" alt="Photo"
-                                        style="max-width: 100%;">
+                                    <div class="mb-3">
+                                        <img src="{{ asset('storage/' . $user->photo) }}" alt="Photo"
+                                            style="max-width: 100%;">
+                                    </div>
+
+                                    <a href="{{ route('download.file', ['field' => 'photo', 'file_path' => $user->photo]) }}"
+                                        class="btn btn-sm btn-warning">
+                                        Download Photo
+                                    </a>
                                 @else
-                                    <p>
+                                    <p class="text-muted">
                                         <small>No photo uploaded</small>
                                     </p>
                                 @endif
@@ -87,10 +94,17 @@
                             <div class="form-group">
                                 <label for="citizenship">Citizenship</label>
                                 @if ($user->citizenship)
-                                    <img src="{{ asset('storage/' . $user->citizenship) }}" alt="Citizenship"
-                                        style="max-width: 100%;">
+                                    <div class="mb-3">
+                                        <img src="{{ asset('storage/' . $user->citizenship) }}" alt="Citizenship"
+                                            style="max-width: 100%;">
+                                    </div>
+
+                                    <a href="{{ route('download.file', ['field' => 'citizenship', 'file_path' => $user->citizenship]) }}"
+                                        class="btn btn-sm btn-warning">
+                                        Download Citizenship
+                                    </a>
                                 @else
-                                    <p>
+                                    <p class="text-muted">
                                         <small>No citizenship file uploaded</small>
                                     </p>
                                 @endif
@@ -100,10 +114,16 @@
                             <div class="form-group">
                                 <label for="national_id">National ID</label>
                                 @if ($user->national_id)
-                                    <img src="{{ asset('storage/' . $user->national_id) }}" alt="National ID"
-                                        style="max-width: 100%;">
+                                    <div class="mb-3">
+                                        <img src="{{ asset('storage/' . $user->national_id) }}" alt="National ID"
+                                            style="max-width: 100%;">
+                                    </div>
+                                    <a href="{{ route('download.file', ['field' => 'national_id', 'file_path' => $user->national_id]) }}"
+                                        class="btn btn-sm btn-warning">
+                                        Download National ID
+                                    </a>
                                 @else
-                                    <p>
+                                    <p class="text-muted">
                                         <small>No National ID file uploaded</small>
                                     </p>
                                 @endif
@@ -175,16 +195,38 @@
                                         placeholder="Guardian's Bank Account Number"
                                         value="{{ $user->minor_guardian_bank_account_number ?? '' }}" readonly>
                                 </div>
-                                <div class="form-group">
-                                    <label for="m_parent_citizenship">Guardian's Citizenship Photo</label>
-                                    <div class="col-md-3">
-
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="m_parent_citizenship">Guardian's Citizenship Photo</label>
                                         @if ($user->parent_citizenship)
-                                            <img src="{{ asset('storage/' . $user->parent_citizenship) }}"
-                                                alt="Parent Citizenship" style="max-width: 100%;">
+                                            <div class="mb-3">
+                                                <img src="{{ asset('storage/' . $user->parent_citizenship) }}"
+                                                    alt="Parent Citizenship" style="max-width: 70%;">
+                                            </div>
+                                            <a href="{{ route('download.file', ['field' => 'parent_citizenship', 'file_path' => $user->parent_citizenship]) }}"
+                                                class="btn btn-sm btn-warning">
+                                                Download Parent Citizenship
+                                            </a>
                                         @else
-                                            <p>
+                                            <p class="text-muted">
                                                 <small>No guardian citizenship file uploaded</small>
+                                            </p>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="birth_certificate">Birth Certificate</label>
+                                        @if ($user->birth_certificate)
+                                            <div class="mb-3">
+                                                <img src="{{ asset('storage/' . $user->birth_certificate) }}"
+                                                    alt="Birth Certificate" style="max-width: 70%;">
+                                            </div>
+                                            <a href="{{ route('download.file', ['field' => 'birth_certificate', 'file_path' => $user->birth_certificate]) }}"
+                                                class="btn btn-sm btn-warning">
+                                                Download Birth Certificate
+                                            </a>
+                                        @else
+                                            <p class="text-muted">
+                                                <small>No birth certificate file uploaded</small>
                                             </p>
                                         @endif
                                     </div>
@@ -384,9 +426,16 @@
                     <label for="voucher">Voucher</label>
                     <div class="col-md-3">
                         @if ($user->voucher)
-                            <img src="{{ asset('storage/' . $user->voucher) }}" alt="voucher" style="max-width: 100%;">
+                            <div class="mb-3">
+                                <img src="{{ asset('storage/' . $user->voucher) }}" alt="voucher"
+                                    style="max-width: 100%;">
+                            </div>
+                            <a href="{{ route('download.file', ['field' => 'voucher', 'file_path' => $user->voucher]) }}"
+                                class="btn btn-sm btn-warning">
+                                Download Voucher
+                            </a>
                         @else
-                            <p>
+                            <p class="text-muted">
                                 <small>No voucher file uploaded</small>
                             </p>
                         @endif
@@ -489,10 +538,16 @@
                     <label for="signature">Signature</label>
                     <div class="col-md-3">
                         @if ($user->signature)
-                            <img src="{{ asset('storage/' . $user->signature) }}" alt="Signature"
-                                style="max-width: 100%;">
+                            <div class="md-3">
+                                <img src="{{ asset('storage/' . $user->signature) }}" alt="Signature"
+                                    style="max-width: 100%;">
+                            </div>
+                            <a href="{{ route('download.file', ['field' => 'signature', 'file_path' => $user->signature]) }}"
+                                class="btn btn-sm btn-warning">
+                                Download Signature
+                            </a>
                         @else
-                            <p>
+                            <p class="text-muted">
                                 <small>No signature file uploaded</small>
                             </p>
                         @endif

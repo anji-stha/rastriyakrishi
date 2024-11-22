@@ -48,6 +48,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('faqs', FaqController::class);
     Route::get('share-rate', [AdminController::class, 'showShareRateForm'])->name('admin.sharerate');
     Route::post('share-rate', [AdminController::class, 'setShareRate'])->name('admin.saveshare');
+    Route::get('download', [AdminController::class, 'downloadFile'])->name('download.file');
 });
 
 Route::get('admin/login', [AdminLoginController::class, 'showLoginForm'])->name('login');

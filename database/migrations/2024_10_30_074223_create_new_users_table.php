@@ -68,6 +68,7 @@ return new class extends Migration
             $table->string('minor_guardian_bank_account_number')->nullable();
             $table->string('national_id_no')->nullable();
             $table->string('national_id')->nullable();
+            $table->string('birth_certificate')->nullable();
             $table->string('registration_number', 100);
             $table->enum('status', ['pending', 'approved', 'disapproved'])->default('pending');
             $table->boolean('accept_terms')->default(false);

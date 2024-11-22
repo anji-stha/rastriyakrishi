@@ -8,6 +8,7 @@ use App\Models\NewUser;
 use App\Models\ShareRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -214,5 +215,33 @@ class AdminController extends Controller
         $shareRate->save();
 
         return redirect()->back()->with('success', 'Share rate updated successfully!');
+    }
+
+    public function downloadFile(Request $request)
+    {
+        $field = $request->get('field');
+        $filePath = $request->get('file_path');
+
+        $fileFields = [
+            'photo' => 'uploads/photos',
+            'citizenship' => 'uploads/citizenships',
+            'signature' => 'uploads/signatures',
+            'voucher' => 'uploads/vouchers',
+            'parent_citizenship' => 'uploads/parent_citizenships',
+            'national_id' => 'uploads/national_id',
+            'birth_certificate' => 'uploads/birth_certificate',
+        ];
+
+        // Check if the field exists in the fileFields array or if the filePath is empty
+        if (!array_key_exists($field, $fileFields) || !$filePath) {
+            return redirect()->back()->with('error', 'Invalid download request');
+        }
+
+        // Check if the file exists in the public storage
+        if (!Storage::disk('public')->exists($filePath)) {
+            return response()->back()->with('error', 'File not found');
+        }
+
+        return Storage::disk('public')->download($filePath);
     }
 }
