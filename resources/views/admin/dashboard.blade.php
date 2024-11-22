@@ -37,11 +37,11 @@
                 <ul class="list-group">
                     <li class="list-group-item">
                         <a href="#" id="load-existing" data-url="{{ route('admin.existingusers') }}"
-                            class="btn btn-success" data-heading="Existing Users">Existing
+                            class="btn btn-info" data-heading="Existing Users">Existing
                             Data</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#" id="load-new" data-url="{{ route('admin.newusers') }}" class="btn btn-success"
+                        <a href="#" id="load-new" data-url="{{ route('admin.newusers') }}" class="btn btn-info"
                             data-heading="New Users">New Registration
                             Data</a>
                     </li>
@@ -53,6 +53,11 @@
                     <li class="list-group-item">
                         <a href="{{ route('faqs.index') }}" id="load-faqs" class="btn btn-info">
                             FAQs List
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="" id="load-share-rate" data-url="{{ route('admin.sharerate') }}" data-heading="Share Rate" class="btn btn-info">
+                            Share Rate
                         </a>
                     </li>
                 </ul>
@@ -87,56 +92,64 @@
                     url: url,
                     type: 'GET',
                     success: function(response) {
-                        $('#content-area').html('<h2>' + heading + '</h2><hr>').append(response);
+                        $('#content-area').html('<h2>' + heading + '</h2><hr>').append(response)
                     },
                     error: function(xhr) {
-                        $('#content-area').html('<p>Error loading data. Please try again.</p>');
+                        $('#content-area').html('<p>Error loading data. Please try again.</p>')
                     }
-                });
+                })
             }
 
             $('#load-existing').on('click', function(e) {
-                e.preventDefault();
-                var url = $(this).data('url');
-                var heading = $(this).data('heading');
+                e.preventDefault()
+                var url = $(this).data('url')
+                var heading = $(this).data('heading')
 
-                loadContent(url, heading);
-            });
+                loadContent(url, heading)
+            })
 
             $('#load-new').on('click', function(e) {
-                e.preventDefault();
-                var url = $(this).data('url');
-                var heading = $(this).data('heading');
+                e.preventDefault()
+                var url = $(this).data('url')
+                var heading = $(this).data('heading')
 
-                loadContent(url, heading);
-            });
+                loadContent(url, heading)
+            })
+
+            $('#load-share-rate').on('click', function(e) {
+                e.preventDefault()
+                var url = $(this).data('url')
+                var heading = $(this).data('heading')
+
+                loadContent(url, heading)
+            })
 
             // Handle filter form submission
             $(document).on('submit', '#filter-form', function(e) {
-                e.preventDefault();
-                var url = $(this).attr('action') + '?' + $(this).serialize();
-                fetchData(url);
-            });
+                e.preventDefault()
+                var url = $(this).attr('action') + '?' + $(this).serialize()
+                fetchData(url)
+            })
 
             // Handle pagination clicks
             $(document).on('click', '.pagination a', function(e) {
-                e.preventDefault();
-                var url = $(this).attr('href');
-                fetchData(url);
-            });
+                e.preventDefault()
+                var url = $(this).attr('href')
+                fetchData(url)
+            })
 
             function fetchData(url) {
                 $.ajax({
                     url: url,
                     type: 'GET',
                     success: function(response) {
-                        $('#content-area').html(response);
+                        $('#content-area').html(response)
                     },
                     error: function(xhr) {
-                        $('#content-area').html('<p>Error loading data. Please try again.</p>');
+                        $('#content-area').html('<p>Error loading data. Please try again.</p>')
                     }
-                });
+                })
             }
-        });
+        })
     </script>
 @endsection

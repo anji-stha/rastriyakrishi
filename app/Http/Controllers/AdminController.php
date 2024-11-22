@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\FeedbackResponse;
 use App\Models\ExistingUser;
 use App\Models\NewUser;
+use App\Models\ShareRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -190,5 +191,28 @@ class AdminController extends Controller
             'success' => false,
             'message' => 'No user found with this registration number.',
         ]);
+    }
+
+    public function showShareRateForm()
+    {
+        $shareRate = ShareRate::first();
+        return view('share-rates.index', compact('shareRate'));
+    }
+
+    public function setShareRate(Request $request)
+    {
+        $validated = $request->validate([
+            'rate' => 'required|numeric|min:0',
+        ]);
+
+        $shareRate = ShareRate::first();
+        if (!$shareRate) {
+            $shareRate = new ShareRate();
+        }
+
+        $shareRate->rate = $validated['rate'];
+        $shareRate->save();
+
+        return redirect()->back()->with('success', 'Share rate updated successfully!');
     }
 }

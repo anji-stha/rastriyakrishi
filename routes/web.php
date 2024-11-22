@@ -32,9 +32,7 @@ Route::get('/storage-link', function () {
     }
 });
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [FeedbackController::class, 'index'])->name('home');
 
 Route::post('/feedback', [FeedbackController::class, 'submit'])->name('feedback.submit');
 Route::get('/search-registration/{registrationNumber}', [AdminController::class, 'search'])->name('search.registration');
@@ -48,6 +46,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('existingusers', [AdminController::class, 'getExistingUsers'])->name('admin.existingusers');
     Route::resource('notices', NoticeController::class);
     Route::resource('faqs', FaqController::class);
+    Route::get('share-rate', [AdminController::class, 'showShareRateForm'])->name('admin.sharerate');
+    Route::post('share-rate', [AdminController::class, 'setShareRate'])->name('admin.saveshare');
 });
 
 Route::get('admin/login', [AdminLoginController::class, 'showLoginForm'])->name('login');

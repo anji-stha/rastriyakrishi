@@ -509,32 +509,39 @@
                 <fieldset class="border p-4 mb-4">
                     <legend class="w-auto">9. Investment Details</legend>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="share">Shares</label>
-                                <input type="text" class="form-control" id="share" name="share"
-                                    placeholder="Shares" value="{{ old('share') }}">
+                                <input type="number" class="form-control" id="share" name="share"
+                                    placeholder="Number of Shares" value="{{ old('share') }}" min="1" required>
                             </div>
                             <span class="text-danger error-message" id="error-share"></span>
                         </div>
-                        <div class="col-md-4">
+
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="investment_amount">Investment Amount</label>
                                 <input type="text" class="form-control" id="investment_amount"
-                                    name="investment_amount" placeholder="Amount"
-                                    value="{{ old('investment_amount') }}">
+                                    name="investment_amount" placeholder="Amount" value="{{ old('investment_amount') }}"
+                                    readonly>
                             </div>
                             <span class="text-danger error-message" id="error-investment_amount"></span>
                         </div>
-                        <div class="col-md-4">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="amount_in_words">Amount in Words</label>
                                 <input type="text" class="form-control" id="amount_in_words" name="amount_in_words"
-                                    placeholder="Amount in Words" value="{{ old('amount_in_words') }}">
+                                    placeholder="Amount in Words" value="{{ old('amount_in_words') }}" readonly>
                             </div>
                             <span class="text-danger error-message" id="error-amount_in_words"></span>
                         </div>
                     </div>
+
+                    <!-- Hidden field for share rate -->
+                    <input type="hidden" id="share_rate" value="{{ $shareRate ? $shareRate->rate : 0 }}" />
                 </fieldset>
 
                 <!-- Declaration and Submit -->
@@ -675,6 +682,7 @@
                 e.preventDefault();
 
                 const formData = new FormData(form);
+                console.log(...formData)
 
                 fetch(form.action, {
                         method: 'POST',
@@ -802,6 +810,64 @@
                 console.error('Error:', error);
                 errorMessage.textContent = 'An error occurred. Please try again.';
             }
+        });
+
+        // Convert number to words (up to millions)
+        function numberToWords(num) {
+            const singleDigits = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+            const teens = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen",
+                "Nineteen"
+            ];
+            const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+            const thousands = ["", "Thousand", "Million"];
+
+            if (num === 0) return "Zero";
+
+            let words = "";
+
+            function toWords(n, idx) {
+                if (n === 0) return "";
+
+                let str = "";
+                if (n > 99) {
+                    str += singleDigits[Math.floor(n / 100)] + " Hundred ";
+                    n %= 100;
+                }
+                if (n > 19) {
+                    str += tens[Math.floor(n / 10)] + " ";
+                    n %= 10;
+                } else if (n > 9) {
+                    str += teens[n - 10] + " ";
+                    n = 0;
+                }
+                if (n > 0) {
+                    str += singleDigits[n] + " ";
+                }
+
+                return str.trim() + (idx > 0 ? " " + thousands[idx] : "");
+            }
+
+            let idx = 0;
+            while (num > 0) {
+                const chunk = num % 1000;
+                if (chunk > 0) {
+                    words = toWords(chunk, idx) + " " + words;
+                }
+                num = Math.floor(num / 1000);
+                idx++;
+            }
+
+            return words.trim();
+        }
+
+        // Update investment amount and amount in words
+        document.getElementById('share').addEventListener('input', function() {
+            const shareRate = parseFloat(document.getElementById('share_rate').value);
+            const shares = parseFloat(this.value) || 0;
+            const totalAmount = shares * shareRate;
+
+            document.getElementById('investment_amount').value = totalAmount.toFixed(2);
+            document.getElementById('amount_in_words').value = numberToWords(Math.floor(totalAmount));
         });
     </script>
 @endsection

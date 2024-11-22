@@ -5,10 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\ExistingUser;
 use App\Models\Feedback;
 use App\Models\NewUser;
+use App\Models\ShareRate;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
+    public function index()
+    {
+        $shareRate = ShareRate::first();
+        return view('home', [
+            'shareRate' => $shareRate
+        ]);
+    }
+
     public function submit(Request $request)
     {
         $registrationType = $request->input('registration_type');
