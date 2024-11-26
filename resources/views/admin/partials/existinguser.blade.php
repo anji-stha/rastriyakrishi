@@ -20,7 +20,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>S.N</th>
             <th>Email</th>
             <th>Phone Number</th>
             <th>Status</th>
@@ -37,7 +37,8 @@
                 <td>{{ ucfirst($user->status) }}</td>
                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                 <td>
-                    <a href="{{ route('admin.show', ['id' => $user->id, 'type' => 'existing']) }}" class="btn btn-info btn-sm">View</a>
+                    <a href="{{ route('admin.show', ['id' => $user->id, 'type' => 'existing']) }}"
+                        class="btn btn-info btn-sm">View</a>
                 </td>
             </tr>
         @endforeach

@@ -1,20 +1,16 @@
 @extends('layout.main')
 
 @section('content')
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-md-4">
-                <img src="https://app.rastriyakrishi.com.np/assets/img/Logo_long.jpg" class="w-100" />
-            </div>
-            <div class="col-md-8 text-right pt-1">
-                <a href="javascript:void(0);" onclick="window.history.back();" style="color:#F57921;">
-                    <i class="bi bi-arrow-left-circle"></i> Go Back
-                </a>
-            </div>
+    @include('layout.admin.nav')
+
+    <div class="container mt-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Add FAQs</h2>
+            <a href="{{ route('faqs.index') }}" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left-circle"></i> Back
+            </a>
         </div>
-    </div>
-    <div class="container mt-5">
-        <h1>Add FAQs</h1>
+
         <form method="POST" action="{{ route('faqs.store') }}">
             @csrf
             <div id="faq-fields">
@@ -31,8 +27,15 @@
                     </div>
                 </div>
             </div>
-            <button type="button" id="add-faq" class="btn btn-secondary mt-2">Add More</button>
-            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+
+            <div class="d-flex justify-content-between">
+                <button type="button" id="add-faq" class="btn btn-secondary mt-2">
+                    <i class="bi bi-plus-circle"></i> Add More
+                </button>
+                <button type="submit" class="btn btn-primary mt-2">
+                    <i class="bi bi-check-circle"></i> Submit
+                </button>
+            </div>
         </form>
     </div>
 

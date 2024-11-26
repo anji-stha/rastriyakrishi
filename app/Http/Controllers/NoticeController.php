@@ -104,4 +104,10 @@ class NoticeController extends Controller
         $notice->delete();
         return redirect()->route('notices.index')->with('success', 'Notice deleted successfully.');
     }
+
+    public function notices()
+    {
+        $notices = Notice::where('status', 'active')->paginate(10);
+        return view('notices.public.index', compact('notices'));
+    }
 }

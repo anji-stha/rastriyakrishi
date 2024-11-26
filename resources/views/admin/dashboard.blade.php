@@ -1,68 +1,35 @@
 @extends('layout.main')
-
 @section('content')
-    <div class="container mt-3">
+    @include('layout.admin.nav')
+    <div class="container-fluid mt-4">
         <div class="row">
-            <div class="col-md-4">
-                <img src="https://app.rastriyakrishi.com.np/assets/img/Logo_long.jpg" class="w-100" />
+            <!-- Sidebar/Navbar -->
+            <div class="col-md-2">
+                <div class="navbar navbar-expand-md navbar-light bg-light flex-column align-items-stretch">
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav flex-column w-100">
+                            <li class="nav-item">
+                                <a href="#" id="load-existing" data-url="{{ route('admin.existingusers') }}"
+                                    class="nav-link btn btn-info mb-2" data-heading="Existing Users">
+                                    Existing Data
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" id="load-new" data-url="{{ route('admin.newusers') }}"
+                                    class="nav-link btn btn-info mb-2" data-heading="New Users">
+                                    New Registration Data
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="" id="load-share-rate" data-url="{{ route('admin.sharerate') }}"
+                                    data-heading="Share Rate" class="nav-link btn btn-info mb-2">
+                                    Share Rate
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-
-            <div class="col-md-8 text-right pt-1">
-                <a href="https://rastriyakrishi.com.np/" style="color:#F57921; "><i class="bi bi-arrow-left-circle"></i> Go to
-                    Homepage</a>
-                @auth
-                    <ul class="list-unstyled d-inline-flex align-items-center mb-0 ml-3">
-                        <li class="nav-item">
-                            <span class="nav-link active">Hello, {{ Auth::user()->name }}</span>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-outline-success nav-link" href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Logout
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </li>
-                    </ul>
-                @endauth
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid mt-5">
-        <div class="row">
-            <!-- Sidebar -->
-            <aside class="col-md-2">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <a href="#" id="load-existing" data-url="{{ route('admin.existingusers') }}"
-                            class="btn btn-info" data-heading="Existing Users">Existing
-                            Data</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="#" id="load-new" data-url="{{ route('admin.newusers') }}" class="btn btn-info"
-                            data-heading="New Users">New Registration
-                            Data</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{{ route('notices.index') }}" id="load-notice" class="btn btn-info">
-                            Notices List
-                        </a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{{ route('faqs.index') }}" id="load-faqs" class="btn btn-info">
-                            FAQs List
-                        </a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="" id="load-share-rate" data-url="{{ route('admin.sharerate') }}" data-heading="Share Rate" class="btn btn-info">
-                            Share Rate
-                        </a>
-                    </li>
-                </ul>
-            </aside>
-
             <!-- Main Content Area -->
             <section class="col-md-10">
                 <div id="content-area">

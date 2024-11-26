@@ -55,3 +55,4 @@ Route::get('admin/login', [AdminLoginController::class, 'showLoginForm'])->name(
 Route::post('admin/login', [AdminLoginController::class, 'login'])->name('authenticate');
 Route::post('admin/logout', [AdminLoginController::class, 'logout'])->name('logout');
 Route::get('/faqs', [FAQController::class, 'faqs'])->name('faqs.public.index');
+Route::get('/notices', [NoticeController::class, 'notices'])->name('notices.public.index');

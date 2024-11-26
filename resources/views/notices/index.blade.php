@@ -1,27 +1,16 @@
 @extends('layout.main')
-
 @section('content')
-    <div class="container mt-3">
+    @include('layout.admin.nav')
+    <div class="container mt-4">
         <div class="row">
-            <div class="col-md-4">
-                <img src="https://app.rastriyakrishi.com.np/assets/img/Logo_long.jpg" class="w-100" />
-            </div>
-
-            <div class="col-md-8 text-right pt-1">
-                <a href="javascript:void(0);" onclick="window.history.back();" style="color:#F57921;">
-                    <i class="bi bi-arrow-left-circle"></i> Go Back
+            <div class="col-md-12 d-flex justify-content-between align-items-center">
+                <h2>Notices Management</h2>
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left-circle"></i> Back
                 </a>
             </div>
         </div>
-    </div>
-
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Notices Management</h2>
-                <hr>
-            </div>
-        </div>
+        <hr>
         <a href="{{ route('notices.create') }}" class="btn btn-primary">Create Notice</a>
 
         @if (session('success'))

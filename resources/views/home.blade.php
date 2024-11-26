@@ -1,19 +1,6 @@
 @extends('layout.main')
-
 @section('content')
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-md-4">
-                <img src="https://app.rastriyakrishi.com.np/assets/img/Logo_long.jpg" class="w-100" />
-            </div>
-
-            <div class="col-md-8 text-right pt-1">
-                <a href="https://rastriyakrishi.com.np/" style="color:#F57921; "><i class="bi bi-arrow-left-circle"></i> Go to
-                    Homepage</a>
-            </div>
-        </div>
-    </div>
-
+    @include('layout.navbar')
     <div class="container mt-5">
         <h2 style="color:#22B24B;">Application Form</h2>
         <p>Please fill up the below form to apply.</p>
@@ -578,49 +565,7 @@
         </div>
     </form>
 
-    <div class="container mt-5">
-        <a href="{{ route('faqs.public.index') }}" target="_blank" class="btn btn-info">
-            View FAQs
-        </a>
-    </div>
-
-    {{-- footer --}}
-    <div class="footer mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>राष्ट्रिय कृषि कम्पनी नेपाल लि.</h5>
-                    <p>हामी नेपालको कृषि क्षेत्रको विकासमा समर्पित छौं।</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>सम्पर्क</h5>
-                    <p>
-                        <i class="fas fa-map-marker-alt"></i> काठमाडौं, नेपाल<br>
-                        <i class="fas fa-phone"></i> +977-1-5970017<br>
-                        <i class="fas fa-envelope"></i> info@rastriyakrishi.com.np
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <h5>उपयोगी लिंकहरू</h5>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="#">गोपनीयता नीति</a></li>
-                        <li><a href="#">सेवाका सर्तहरू</a></li>
-                        <li><a href="#">रोजगारी</a></li>
-                        <li><a href="#">सहायता केन्द्र</a></li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="bg-light">
-            <div class="text-center">
-                <small>&copy;
-                    <script>
-                        document.write(new Date().getFullYear());
-                    </script> राष्ट्रिय कृषि कम्पनी नेपाल लि. सर्वाधिकार सुरक्षित।
-                </small>
-            </div>
-        </div>
-
-    </div>
+    @include('layout.footer')
 
     <script>
         // Toggle parent details when the minor checkbox is checked

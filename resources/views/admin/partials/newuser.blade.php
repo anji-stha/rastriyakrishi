@@ -28,7 +28,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>S.N</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone Number</th>
