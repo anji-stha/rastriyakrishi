@@ -12,18 +12,20 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('notices.index') }}">Notices</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('faqs.index') }}">FAQs</a>
-                </li>
-
-                <!-- Authenticated User Links -->
                 @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('brochure.index') }}">Brochure</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('notices.index') }}">Notices</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('faqs.index') }}">FAQs</a>
+                    </li>
+
                     <li class="nav-item">
                         <span class="nav-link active">Hello, {{ Auth::user()->name }}</span>
                     </li>
