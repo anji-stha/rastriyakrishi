@@ -32,11 +32,6 @@ class NoticeController extends Controller
 
         $imagePath = $request->hasFile('image') ? $request->file('image')->store('uploads/notice', 'public') : null;
 
-        // If new notice is active, make others inactive
-        if ($request->status === 'active') {
-            Notice::where('status', 'active')->update(['status' => 'inactive']);
-        }
-
         Notice::create([
             'title' => $request->title,
             'description' => $request->description,
@@ -77,11 +72,6 @@ class NoticeController extends Controller
             $imagePath = $request->file('image')->store('uploads/photos', 'public');
         } else {
             $imagePath = $notice->image;
-        }
-
-        // If status is active, set others to inactive
-        if ($request->status === 'active' && $notice->status !== 'active') {
-            Notice::where('status', 'active')->update(['status' => 'inactive']);
         }
 
         $notice->update([
