@@ -437,8 +437,38 @@
                         </div>
                     </div>
                     <span class="text-danger error-message" id="error-payment_method"></span>
+                    <div class="form-group" id="bank_details">
+                        <div class="row">
+                            <!-- Bank Name -->
+                            <div class="col-md-6 mb-3">
+                                <label for="bank_name" class="form-label">Bank Name</label>
+                                <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Enter bank name" value="{{ old('bank_name') }}">
+                                <span class="text-danger error-message" id="error-bank_name"></span>
+                            </div>
+                            <!-- Bank Branch -->
+                            <div class="col-md-6 mb-3">
+                                <label for="bank_branch" class="form-label">Bank Branch</label>
+                                <input type="text" class="form-control" id="bank_branch" name="bank_branch" placeholder="Enter bank branch" value="{{ old('bank_branch') }}">
+                                <span class="text-danger error-message" id="error-bank_branch"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Account Holder Name -->
+                            <div class="col-md-6 mb-3">
+                                <label for="account_holder_name" class="form-label">Account Holder Name</label>
+                                <input type="text" class="form-control" id="account_holder_name" name="account_holder_name" placeholder="Enter account holder name" value="{{ old('account_holder_name') }}">
+                                <span class="text-danger error-message" id="error-account_holder_name"></span>
+                            </div>
+                            <!-- Account Number -->
+                            <div class="col-md-6 mb-3">
+                                <label for="account_number" class="form-label">Account Number</label>
+                                <input type="text" class="form-control" id="account_number" name="account_number" placeholder="Enter account number" value="{{ old('account_number') }}">
+                                <span class="text-danger error-message" id="error-account_number"></span>
+                            </div>
+                        </div>
+                    </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="voucher-container">
                         <label for="voucher">Upload voucher <small class="text-muted">(Max size: 2MB)</small></label>
                         <input type="file" class="form-control" id="voucher" name="voucher">
                         <span class="text-danger error-message" id="error-voucher"></span>
@@ -688,6 +718,7 @@
         document.getElementById('search-registration').addEventListener('click', async function() {
             const registrationNumber = document.getElementById('registration_number').value;
             const errorMessage = document.getElementById('error-registration_number');
+            const bankDetails = document.getElementById('bank_details');
 
             errorMessage.textContent = '';
 
@@ -712,15 +743,24 @@
                     const fields = data.data;
 
                     console.log(fields)
+                    if (bankDetails) {
+                        // Hide bank details by default
+                        bankDetails.style.display = 'none';
+                    }
                     Object.keys(fields).forEach(key => {
                         const fieldValue = fields[key];
 
                         const radios = document.getElementsByName(key);
                         if (radios.length > 0) {
                             radios.forEach(radio => {
+                                console.log(radio.value )
                                 radio.checked = (radio.value === fieldValue);
+                                if (radio.value === 'bankDeposit' && fieldValue === 'bankDeposit' ) {
+                                    bankDetails.style.display = 'block';
+                                }
                             });
                         }
+
 
                         const inputField = document.getElementById(key);
                         if (inputField) {
@@ -813,5 +853,77 @@
             document.getElementById('investment_amount').value = totalAmount.toFixed(2);
             document.getElementById('amount_in_words').value = numberToWords(Math.floor(totalAmount));
         });
+
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+        //     const voucherContainer = document.getElementById('voucher-container');
+        //     const bankDetails = document.getElementById('bank_details');
+        //     bankDetails.style.display = 'block';
+        //     // Function to toggle visibility of fields based on payment method
+        //     function toggleFields() {
+        //         const selectedMethod = document.querySelector('input[name="payment_method"]:checked').value;
+
+        //         // Show/hide voucher field based on payment method
+        //         if (selectedMethod === 'cash') {
+        //             voucherContainer.style.display = 'none'; // Hide voucher for "Cash"
+        //         } else {
+        //             voucherContainer.style.display = 'block'; // Show voucher for other methods
+        //         }
+
+        //         // Show/hide bank details field based on payment method
+        //         if (selectedMethod === 'bankDeposit') {
+        //             bankDetails.style.display = 'block'; // Show bank details for "Bank Deposit"
+        //         } else {
+        //             bankDetails.style.display = 'none'; // Hide bank details for other methods
+        //         }
+        //     }
+
+        //     // Attach change event listeners to all payment method radio buttons
+        //     paymentMethods.forEach((radio) => {
+        //         radio.addEventListener('change', toggleFields);
+        //     });
+
+        //     // Run the function on page load to handle pre-selected values
+        //     toggleFields();
+        // });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+            const voucherContainer = document.getElementById('voucher-container');
+            const bankDetails = document.getElementById('bank_details');
+            bankDetails.style.display = 'none';
+            // Function to toggle visibility of fields based on payment method
+            function toggleFields() {
+                const selectedMethod = document.querySelector('input[name="payment_method"]:checked');
+
+                // If no payment method is selected, return early
+                if (!selectedMethod) return;
+
+                const selectedMethodValue = selectedMethod.value;
+
+                // Show/hide voucher field based on payment method
+                if (selectedMethodValue === 'cash') {
+                    voucherContainer.style.display = 'none'; // Hide voucher for "Cash"
+                } else {
+                    voucherContainer.style.display = 'block'; // Show voucher for other methods
+                }
+
+                // Show/hide bank details field based on payment method
+                if (selectedMethodValue === 'bankDeposit') {
+                    bankDetails.style.display = 'block'; // Show bank details for "Bank Deposit"
+                } else {
+                    bankDetails.style.display = 'none'; // Hide bank details for other methods
+                }
+            }
+
+            // Attach change event listeners to all payment method radio buttons
+            paymentMethods.forEach((radio) => {
+                radio.addEventListener('change', toggleFields);
+            });
+
+            // Run the function on page load to handle pre-selected values
+            toggleFields();
+        });
+
     </script>
 @endsection

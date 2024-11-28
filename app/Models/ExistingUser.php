@@ -47,7 +47,11 @@ class ExistingUser extends Model
         'accept_terms',
         'voucher',
         'registration_number',
-        'signature'
+        'signature',
+        'bank_name',
+        'bank_branch',
+        'account_holder_name',
+        'account_number'
     ];
 
     // You can set default values for the status attribute

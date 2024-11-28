@@ -81,7 +81,11 @@ class FeedbackController extends Controller
             'amount_in_words' => 'nullable|string|max:255',
             'accept_terms' => 'accepted',
             'signature' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
-            'voucher' => 'required|file|mimes:jpg,jpeg,png|max:2048',
+            'voucher' => 'required_if:payment_method,cheque,bankDeposit,ips|file|mimes:jpg,jpeg,png|max:2048',
+            'bank_name' => 'required_if:payment_method,bankDeposit',
+            'bank_branch' => 'required_if:payment_method,bankDeposit',
+            'account_holder_name' => 'required_if:payment_method,bankDeposit',
+            'account_number' => 'required_if:payment_method,bankDeposit',
         ];
 
         $existingRules = [

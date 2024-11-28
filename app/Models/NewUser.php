@@ -67,7 +67,11 @@ class NewUser extends Model
         'minor_guardian_bank_account_number',
         'national_id_no',
         'national_id',
-        'birth_certificate'
+        'birth_certificate',
+        'bank_name',
+        'bank_branch',
+        'account_holder_name',
+        'account_number'
     ];
 
     // You can set default values for the status attribute
