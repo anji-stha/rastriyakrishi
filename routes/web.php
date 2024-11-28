@@ -63,3 +63,4 @@ Route::post('admin/login', [AdminLoginController::class, 'login'])->name('authen
 Route::post('admin/logout', [AdminLoginController::class, 'logout'])->name('logout');
 Route::get('/faqs', [FAQController::class, 'faqs'])->name('faqs.public.index');
 Route::get('/notices', [NoticeController::class, 'notices'])->name('notices.public.index');
+Route::get('/brochure', [BrochureController::class, 'brochure'])->name('brochure.public.index');

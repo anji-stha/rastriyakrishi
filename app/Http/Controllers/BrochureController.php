@@ -87,4 +87,11 @@ class BrochureController extends Controller
         return redirect()->route('home')->with('error', 'File not found.');
     }
 
+    public function brochure()
+    {
+        $files = Storage::disk('public')->files('brochures') ?? [];
+
+        return view('brochure.public.index', compact('files'));
+    }
+
 }

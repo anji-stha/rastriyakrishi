@@ -17,11 +17,7 @@
                <div class="col-md-3">
                    <h5>Resources</h5>
                    <ul class="list-unstyled footer-links">
-                       @foreach ($resources as $resource)
-                           <li>
-                               <a href="{{ $resource['url'] }}" target="_blank">{{ $resource['filename'] }}</a>
-                           </li>
-                       @endforeach
+                       <li><a href="{{route('brochure.public.index')}}">Brochure</a></li>
                    </ul>
                </div>
                <div class="col-md-3">
