@@ -422,25 +422,56 @@
                         <label class="form-check-label" for="ips">IPS</label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="voucher">Voucher</label>
-                    <div class="col-md-3">
-                        @if ($user->voucher)
-                            <div class="mb-3">
-                                <img src="{{ asset('storage/' . $user->voucher) }}" alt="voucher"
-                                    style="max-width: 100%;">
+                @if ($user->payment_method == 'bankDeposit')
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="bank_name" class="form-label">Bank Name</label>
+                                <input type="text" class="form-control" id="bank_name" name="bank_name"
+                                    placeholder="Enter bank name" value="{{ $user->bank_name }}" readonly>
                             </div>
-                            <a href="{{ route('download.file', ['field' => 'voucher', 'file_path' => $user->voucher]) }}"
-                                class="btn btn-sm btn-warning">
-                                Download Voucher
-                            </a>
-                        @else
-                            <p class="text-muted">
-                                <small>No voucher file uploaded</small>
-                            </p>
-                        @endif
+                            <div class="col-md-6 mb-3">
+                                <label for="bank_branch" class="form-label">Bank Branch</label>
+                                <input type="text" class="form-control" id="bank_branch" name="bank_branch"
+                                    placeholder="Enter bank branch" value="{{ $user->bank_branch }}" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="account_holder_name" class="form-label">Account Holder Name</label>
+                                <input type="text" class="form-control" id="account_holder_name"
+                                    name="account_holder_name" placeholder="Enter account holder name"
+                                    value="{{ $user->account_holder_name }}" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="account_number" class="form-label">Account Number</label>
+                                <input type="text" class="form-control" id="account_number" name="account_number"
+                                    placeholder="Enter account number" value="{{ $user->account_number }}" readonly>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @endif
+                @if ($user->payment_method !== 'cash')
+                    <div class="form-group">
+                        <label for="voucher">Voucher</label>
+                        <div class="col-md-3">
+                            @if ($user->voucher)
+                                <div class="mb-3">
+                                    <img src="{{ asset('storage/' . $user->voucher) }}" alt="voucher"
+                                        style="max-width: 100%;">
+                                </div>
+                                <a href="{{ route('download.file', ['field' => 'voucher', 'file_path' => $user->voucher]) }}"
+                                    class="btn btn-sm btn-warning">
+                                    Download Voucher
+                                </a>
+                            @else
+                                <p class="text-muted">
+                                    <small>No voucher file uploaded</small>
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                @endif
             </fieldset>
         </div>
 
@@ -564,8 +595,7 @@
                     <button type="submit" class="btn btn-success">Approve</button>
                 </form>
 
-                <form action="{{ route('admin.disapprove', ['id' => $user->id]) }}"
-                    method="POST" class="d-inline">
+                <form action="{{ route('admin.disapprove', ['id' => $user->id]) }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-danger">Disapprove</button>
                 </form>
