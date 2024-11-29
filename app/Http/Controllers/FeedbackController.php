@@ -76,12 +76,16 @@ class FeedbackController extends Controller
             'profession' => 'nullable|string|max:255',
             'organization' => 'nullable|string|max:255',
             'organization_address' => 'nullable|string|max:255',
-            'share' => 'nullable|numeric',
+            'share' => 'required|numeric',
             'investment_amount' => 'nullable|numeric',
             'amount_in_words' => 'nullable|string|max:255',
             'accept_terms' => 'accepted',
             'signature' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
-            'voucher' => 'required|file|mimes:jpg,jpeg,png|max:2048',
+            'voucher' => 'required_if:payment_method,cheque,bankDeposit,ips|file|mimes:jpg,jpeg,png|max:2048',
+            'bank_name' => 'required_if:payment_method,bankDeposit',
+            'bank_branch' => 'required_if:payment_method,bankDeposit',
+            'account_holder_name' => 'required_if:payment_method,bankDeposit',
+            'account_number' => 'required_if:payment_method,bankDeposit',
         ];
 
         $existingRules = [

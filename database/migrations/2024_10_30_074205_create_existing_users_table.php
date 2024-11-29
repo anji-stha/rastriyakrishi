@@ -51,6 +51,10 @@ return new class extends Migration
             $table->string('registration_number', 100);
             $table->enum('status', ['pending', 'approved', 'disapproved'])->default('pending');
             $table->boolean('accept_terms')->default(false);
+            $table->string('bank_name')->nullable();
+            $table->string('bank_branch')->nullable();
+            $table->string('account_holder_name')->nullable();
+            $table->string('account_number')->nullable();
             $table->timestamps();
         });
     }
