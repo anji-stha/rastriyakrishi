@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('new_users', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name', 255);
-            $table->string('dob_bs', 20);
-            $table->string('dob_ad', 20);
-            $table->string('citizenship_no', 50);
-            $table->string('citizenship_issued', 50);
-            $table->string('citizenship_district', 100);
-            $table->string('permanent_district', 100);
-            $table->string('permanent_municipality', 100);
-            $table->string('permanent_ward_no', 100);
-            $table->string('permanent_tole', 255);
+            $table->string('full_name', 255)->nullable();
+            $table->string('dob_bs', 20)->nullable();
+            $table->string('dob_ad', 20)->nullable();
+            $table->string('citizenship_no', 50)->nullable();
+            $table->string('citizenship_issued', 50)->nullable();
+            $table->string('citizenship_district', 100)->nullable();
+            $table->string('permanent_district', 100)->nullable();
+            $table->string('permanent_municipality', 100)->nullable();
+            $table->string('permanent_ward_no', 100)->nullable();
+            $table->string('permanent_tole', 255)->nullable();
             $table->string('federal_province', 100)->nullable();
             $table->string('federal_district', 100)->nullable();
             $table->string('federal_municipality', 100)->nullable();
@@ -49,9 +49,6 @@ return new class extends Migration
             $table->string('profession', 255)->nullable();
             $table->string('organization', 255)->nullable();
             $table->string('organization_address', 255)->nullable();
-            $table->decimal('share', 15, 2)->nullable();
-            $table->decimal('investment_amount', 15, 2)->nullable();
-            $table->string('amount_in_words', 255)->nullable();
             $table->string('photo')->nullable();
             $table->string('citizenship')->nullable();
             $table->string('signature')->nullable();
@@ -69,13 +66,29 @@ return new class extends Migration
             $table->string('national_id_no')->nullable();
             $table->string('national_id')->nullable();
             $table->string('birth_certificate')->nullable();
-            $table->string('registration_number', 100);
+            $table->string('registration_number', 100)->nullable()->index();
             $table->enum('status', ['pending', 'approved', 'disapproved'])->default('pending');
             $table->boolean('accept_terms')->default(false);
             $table->string('bank_name')->nullable();
             $table->string('bank_branch')->nullable();
             $table->string('account_holder_name')->nullable();
             $table->string('account_number')->nullable();
+            $table->boolean('is_exist')->default(false);
+            $table->timestamps();
+        });
+
+        // Create the pivot table for investment_details
+        Schema::create('investment_details', function (Blueprint $table) {
+            $table->id();
+            $table->string('registration_number', 100);
+            $table->foreign('registration_number') // Foreign key for registration_number
+                ->references('registration_number')
+                ->on('new_users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->decimal('share', 15, 2)->nullable();
+            $table->decimal('investment_amount', 15, 2)->nullable();
+            $table->string('amount_in_words', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -85,6 +98,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('investment_details');
         Schema::dropIfExists('new_users');
     }
 };

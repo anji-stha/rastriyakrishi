@@ -46,9 +46,6 @@ class NewUser extends Model
         'profession',
         'organization',
         'organization_address',
-        'share',
-        'investment_amount',
-        'amount_in_words',
         'citizenship',
         'signature',
         'status',
@@ -71,12 +68,18 @@ class NewUser extends Model
         'bank_name',
         'bank_branch',
         'account_holder_name',
-        'account_number'
+        'account_number',
+        'registration_number',
+        'is_exist',
     ];
 
     // You can set default values for the status attribute
     protected $attributes = [
         'status' => 'pending',
-        'registration_number' => '',
     ];
+
+    public function investmentDetails()
+    {
+        return $this->hasMany(InvestmentDetail::class, 'registration_number', 'registration_number');
+    }
 }

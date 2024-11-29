@@ -99,7 +99,13 @@ class FeedbackController extends Controller
                     : array_merge($existingRules, $commonRules)
             );
 
+            $validated['registration_number'] = $registrationType === 'new'
+                ? 'temporary' . uniqid()
+                : $request->input('registration_number');
+
             $validated['accept_terms'] = $request->has('accept_terms') ? 1 : 0;
+
+            $validated['is_exist'] = $registrationType === 'existing' ? 1 : 0;
 
             // Handle the image upload
             if ($request->hasFile('photo')) {
@@ -142,11 +148,17 @@ class FeedbackController extends Controller
                 $validated['birth_certificate'] = $filePath;
             }
 
-            if ($registrationType === 'new') {
-                NewUser::create($validated);
-            } else {
-                ExistingUser::create($validated);
-            }
+            $newUser = NewUser::create($validated);
+
+            $investmentDetailsData = [
+                'registration_number' => $validated['registration_number'],
+                'share' => $validated['share'],
+                'amount_in_words' => $validated['amount_in_words'],
+                'investment_amount' => $validated['investment_amount'],
+            ];
+
+            // Insert investment details
+            $newUser->investmentDetails()->create($investmentDetailsData);
 
             return response()->json(['message' => 'Form submitted successfully!'], 200);
         } catch (\Illuminate\Validation\ValidationException $e) {

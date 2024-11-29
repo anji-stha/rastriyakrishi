@@ -39,21 +39,27 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($newUser as $key => $value)
+        @if ($newUser->isEmpty())
             <tr>
-                <td>{{ $key + 1 + ($newUser->currentPage() - 1) * $newUser->perPage() }}</td>
-                <td>{{ $value->full_name }}</td>
-                <td>{{ $value->email }}</td>
-                <td>{{ $value->mobile }}</td>
-                <td>{{ $value->is_minor ? 'Yes' : 'No' }}</td>
-                <td>{{ ucfirst($value->status) }}</td>
-                <td>{{ $value->created_at->format('Y-m-d') }}</td>
-                <td>
-                    <a href="{{ route('admin.show', ['id' => $value->id, 'type' => 'new']) }}"
-                        class="btn btn-info btn-sm">View</a>
-                </td>
+                <td colspan="7" class="text-center">No data found</td>
             </tr>
-        @endforeach
+        @else
+            @foreach ($newUser as $key => $value)
+                <tr>
+                    <td>{{ $key + 1 + ($newUser->currentPage() - 1) * $newUser->perPage() }}</td>
+                    <td>{{ $value->full_name }}</td>
+                    <td>{{ $value->email }}</td>
+                    <td>{{ $value->mobile }}</td>
+                    <td>{{ $value->is_minor ? 'Yes' : 'No' }}</td>
+                    <td>{{ ucfirst($value->status) }}</td>
+                    <td>{{ $value->created_at->format('Y-m-d') }}</td>
+                    <td>
+                        <a href="{{ route('admin.show', ['id' => $value->id, 'type' => 'new']) }}"
+                            class="btn btn-info btn-sm">View</a>
+                    </td>
+                </tr>
+            @endforeach
+        @endif
     </tbody>
 </table>
 

@@ -41,7 +41,7 @@ Route::get('/search-registration/{registrationNumber}', [AdminController::class,
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::post('user/{id}/approve/{type}', [AdminController::class, 'approve'])->name('admin.approve');
-    Route::post('user/{id}/disapprove/{type}', [AdminController::class, 'disapprove'])->name('admin.disapprove');
+    Route::post('user/{id}/disapprove', [AdminController::class, 'disapprove'])->name('admin.disapprove');
     Route::get('user/{id}/{type}', [AdminController::class, 'show'])->name('admin.show');
     Route::get('newusers', [AdminController::class, 'getNewUsers'])->name('admin.newusers');
     Route::get('existingusers', [AdminController::class, 'getExistingUsers'])->name('admin.existingusers');

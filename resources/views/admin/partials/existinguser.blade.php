@@ -11,6 +11,9 @@
         <option value="disapproved" {{ request('status') == 'disapproved' ? 'selected' : '' }}>Disapproved</option>
     </select>
 
+    <input type="text" name="registration_number" class="form-control mr-2" placeholder="Registration Number"
+        value="{{ request('registration_number') }}">
+
     <input type="date" name="created_at" class="form-control mr-2" placeholder="Created At"
         value="{{ request('created_at') }}">
 
@@ -24,24 +27,32 @@
             <th>Email</th>
             <th>Phone Number</th>
             <th>Status</th>
+            <th>Registration Number</th>
             <th>Registered Date</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($existingUser as $key => $user)
+        @if ($existingUser->isEmpty())
             <tr>
-                <td>{{ $key + 1 + ($existingUser->currentPage() - 1) * $existingUser->perPage() }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->mobile }}</td>
-                <td>{{ ucfirst($user->status) }}</td>
-                <td>{{ $user->created_at->format('Y-m-d') }}</td>
-                <td>
-                    <a href="{{ route('admin.show', ['id' => $user->id, 'type' => 'existing']) }}"
-                        class="btn btn-info btn-sm">View</a>
-                </td>
+                <td colspan="7" class="text-center">No data found</td>
             </tr>
-        @endforeach
+        @else
+            @foreach ($existingUser as $key => $user)
+                <tr>
+                    <td>{{ $key + 1 + ($existingUser->currentPage() - 1) * $existingUser->perPage() }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->mobile }}</td>
+                    <td>{{ ucfirst($user->status) }}</td>
+                    <td>{{ ucfirst($user->registration_number) }}</td>
+                    <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                    <td>
+                        <a href="{{ route('admin.show', ['id' => $user->id, 'type' => 'existing']) }}"
+                            class="btn btn-info btn-sm">View</a>
+                    </td>
+                </tr>
+            @endforeach
+        @endif
     </tbody>
 </table>
 

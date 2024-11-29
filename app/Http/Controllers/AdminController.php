@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\FeedbackResponse;
 use App\Models\ExistingUser;
+use App\Models\InvestmentDetail;
 use App\Models\NewUser;
 use App\Models\ShareRate;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class AdminController extends Controller
 
     public function getNewUsers(Request $request)
     {
-        $query = NewUser::query();
+        $query = NewUser::query()->where('is_exist', 0);
         if ($request->filled('full_name')) {
             $query->where('full_name', 'like', '%' . $request->full_name . '%');
         }
@@ -34,6 +35,9 @@ class AdminController extends Controller
         }
         if ($request->filled('mobile')) {
             $query->where('mobile', 'like', '%' . $request->mobile . '%');
+        }
+        if ($request->filled('registration_number')) {
+            $query->where('registration_number', 'like', '%' . $request->registration_number . '%');
         }
         if ($request->filled('created_at')) {
             $query->whereDate('created_at', $request->created_at);
@@ -51,7 +55,7 @@ class AdminController extends Controller
 
     public function getExistingUsers(Request $request)
     {
-        $query = ExistingUser::query();
+        $query = NewUser::query()->where('is_exist', 1);
 
         // Apply filters if present
         if ($request->filled('status')) {
@@ -62,6 +66,9 @@ class AdminController extends Controller
         }
         if ($request->filled('mobile')) {
             $query->where('mobile', 'like', '%' . $request->mobile . '%');
+        }
+        if ($request->filled('registration_number')) {
+            $query->where('registration_number', 'like', '%' . $request->registration_number . '%');
         }
         if ($request->filled('created_at')) {
             $query->whereDate('created_at', $request->created_at);
@@ -83,9 +90,15 @@ class AdminController extends Controller
         $data = null;
 
         if ($type === 'existing') {
-            $data = ExistingUser::findOrFail($id);
+            $data = NewUser::findOrFail($id);
         } elseif ($type === 'new') {
             $data = NewUser::findOrFail($id);
+            $investmentDetails = InvestmentDetail::where('registration_number', $data->registration_number)->get();
+            foreach ($investmentDetails as $investment) {
+                $investment->registration_number = $data->registration_number; // Set actual registration number
+                $investment->save();
+            }
+            $data->is_exist = 1; // Set as existing user
             // Generate a unique registration number only for new registrations
             $data->registration_number = 'REG' . mt_rand(100000, 999999);
         }
@@ -104,15 +117,9 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('error', 'Approval failed.');
     }
 
-    public function disapprove($id, $type)
+    public function disapprove($id)
     {
-        $data = null;
-
-        if ($type === 'existing') {
-            $data = ExistingUser::findOrFail($id);
-        } elseif ($type === 'new') {
-            $data = NewUser::findOrFail($id);
-        }
+        $data = NewUser::findOrFail($id);
 
         if ($data) {
             $data->status = 'disapproved';
@@ -129,7 +136,7 @@ class AdminController extends Controller
     public function show($id, $type)
     {
         if ($type === 'existing') {
-            $data = ExistingUser::findOrFail($id);
+            $data = NewUser::findOrFail($id);
         } elseif ($type === 'new') {
             $data = NewUser::findOrFail($id);
         } else {
@@ -144,51 +151,64 @@ class AdminController extends Controller
 
     public function search($registrationNumber)
     {
-        $user = NewUser::where('registration_number', $registrationNumber)->first();
+        $user = NewUser::where('registration_number', $registrationNumber)->latest()->first();
 
         if ($user) {
+            // Fetch the latest investment detail based on registration number
+            $investmentDetails = InvestmentDetail::where('registration_number', $registrationNumber)
+                ->latest()  // Order by the latest created record
+                ->first(); // Get the most recent record
+
+            // If there's an investment detail, extract the fields, else set default values
+            $investmentData = $investmentDetails ? [
+                'share' => $investmentDetails->share,
+                'investment_amount' => $investmentDetails->investment_amount,
+                'amount_in_words' => $investmentDetails->amount_in_words,
+            ] : [];
+
+            // Prepare the response data
             return response()->json([
                 'success' => true,
-                'data' => $user->only([
-                    'permanent_district',
-                    'permanent_municipality',
-                    'permanent_tole',
-                    'permanent_ward_no',
-                    'temporary_district',
-                    'temporary_house_no',
-                    'temporary_municipality',
-                    'temporary_province',
-                    'temporary_tole',
-                    'temporary_ward_no',
-                    'federal_district',
-                    'federal_house_no',
-                    'federal_municipality',
-                    'federal_province',
-                    'federal_tole',
-                    'federal_ward_no',
-                    'email',
-                    'mobile',
-                    'father_name',
-                    'relation_type',
-                    'grandfather_name',
-                    'spouse_relation',
-                    'spouse_name',
-                    'payment_method',
-                    'pan',
-                    'education_level',
-                    'degree',
-                    'share',
-                    'investment_amount',
-                    'amount_in_words',
-                    'profession',
-                    'organization',
-                    'organization_address',
-                    'accept_terms',
-                    'bank_name',
-                    'bank_branch',
-                    'account_holder_name',
-                    'account_number'
-                ])
+                'data' => array_merge(
+                    $user->only([
+                        'permanent_district',
+                        'permanent_municipality',
+                        'permanent_tole',
+                        'permanent_ward_no',
+                        'temporary_district',
+                        'temporary_house_no',
+                        'temporary_municipality',
+                        'temporary_province',
+                        'temporary_tole',
+                        'temporary_ward_no',
+                        'federal_district',
+                        'federal_house_no',
+                        'federal_municipality',
+                        'federal_province',
+                        'federal_tole',
+                        'federal_ward_no',
+                        'email',
+                        'mobile',
+                        'father_name',
+                        'relation_type',
+                        'grandfather_name',
+                        'spouse_relation',
+                        'spouse_name',
+                        'payment_method',
+                        'pan',
+                        'education_level',
+                        'degree',
+                        'profession',
+                        'organization',
+                        'organization_address',
+                        'accept_terms',
+                        'bank_name',
+                        'bank_branch',
+                        'account_holder_name',
+                        'account_number'
+                    ]),
+                    $investmentData
+                )
             ]);
         }
 

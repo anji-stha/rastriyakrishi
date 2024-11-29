@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "input, textarea, select"
         );
         formElements.forEach((element) => {
-            if (element.id === "share_rate") {
+            if (element.name === "is_minor" || element.id === "share_rate") {
                 return;
             }
             if (element.type === "checkbox" || element.type === "radio") {
@@ -77,7 +77,9 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
 
         const formData = new FormData(form);
-
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
         fetch(form.action, {
             method: "POST",
             body: formData,
@@ -179,12 +181,13 @@ document
             );
 
             const data = await response.json();
+            console.debug(data);
 
             if (data.success) {
                 const fields = data.data;
 
-                console.log(fields);
                 bankDetails.style.display = "none";
+                voucherContainer.style.display = "none";
 
                 Object.keys(fields).forEach((key) => {
                     const fieldValue = fields[key];
@@ -192,14 +195,19 @@ document
                     const radios = document.getElementsByName(key);
                     if (radios.length > 0) {
                         radios.forEach((radio) => {
-                            console.log(radio.value);
+                            // Set the radio as checked if its value matches the fieldValue
                             radio.checked = radio.value === fieldValue;
-                            if (
-                                radio.value === "bankDeposit" &&
-                                fieldValue === "bankDeposit"
-                            ) {
-                                bankDetails.style.display = "block";
-                                voucherContainer.style.display = "block";
+
+                            if (radio.checked) {
+                                if (radio.value === "bankDeposit") {
+                                    bankDetails.style.display = "block";
+                                    voucherContainer.style.display = "block";
+                                } else if (radio.value === "cash") {
+                                    bankDetails.style.display = "none";
+                                    voucherContainer.style.display = "none";
+                                } else {
+                                    voucherContainer.style.display = "block"; // For other values
+                                }
                             }
                         });
                     }
@@ -353,7 +361,6 @@ function numberToWords(num) {
 // Update investment amount and amount in words
 document.getElementById("share").addEventListener("input", function () {
     const shareRate = parseFloat(document.getElementById("share_rate").value);
-    console.log(shareRate)
     const shares = parseFloat(this.value) || 0;
     const totalAmount = shares * shareRate;
 

@@ -564,7 +564,7 @@
                     <button type="submit" class="btn btn-success">Approve</button>
                 </form>
 
-                <form action="{{ route('admin.disapprove', ['id' => $user->id, 'type' => request('type')]) }}"
+                <form action="{{ route('admin.disapprove', ['id' => $user->id]) }}"
                     method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-danger">Disapprove</button>
