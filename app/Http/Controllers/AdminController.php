@@ -184,6 +184,10 @@ class AdminController extends Controller
                     'organization',
                     'organization_address',
                     'accept_terms',
+                    'bank_name',
+                    'bank_branch',
+                    'account_holder_name',
+                    'account_number'
                 ])
             ]);
         }

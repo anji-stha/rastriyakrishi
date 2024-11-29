@@ -76,7 +76,7 @@ class FeedbackController extends Controller
             'profession' => 'nullable|string|max:255',
             'organization' => 'nullable|string|max:255',
             'organization_address' => 'nullable|string|max:255',
-            'share' => 'nullable|numeric',
+            'share' => 'required|numeric',
             'investment_amount' => 'nullable|numeric',
             'amount_in_words' => 'nullable|string|max:255',
             'accept_terms' => 'accepted',

@@ -442,13 +442,15 @@
                             <!-- Bank Name -->
                             <div class="col-md-6 mb-3">
                                 <label for="bank_name" class="form-label">Bank Name</label>
-                                <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Enter bank name" value="{{ old('bank_name') }}">
+                                <input type="text" class="form-control" id="bank_name" name="bank_name"
+                                    placeholder="Enter bank name" value="{{ old('bank_name') }}">
                                 <span class="text-danger error-message" id="error-bank_name"></span>
                             </div>
                             <!-- Bank Branch -->
                             <div class="col-md-6 mb-3">
                                 <label for="bank_branch" class="form-label">Bank Branch</label>
-                                <input type="text" class="form-control" id="bank_branch" name="bank_branch" placeholder="Enter bank branch" value="{{ old('bank_branch') }}">
+                                <input type="text" class="form-control" id="bank_branch" name="bank_branch"
+                                    placeholder="Enter bank branch" value="{{ old('bank_branch') }}">
                                 <span class="text-danger error-message" id="error-bank_branch"></span>
                             </div>
                         </div>
@@ -456,13 +458,16 @@
                             <!-- Account Holder Name -->
                             <div class="col-md-6 mb-3">
                                 <label for="account_holder_name" class="form-label">Account Holder Name</label>
-                                <input type="text" class="form-control" id="account_holder_name" name="account_holder_name" placeholder="Enter account holder name" value="{{ old('account_holder_name') }}">
+                                <input type="text" class="form-control" id="account_holder_name"
+                                    name="account_holder_name" placeholder="Enter account holder name"
+                                    value="{{ old('account_holder_name') }}">
                                 <span class="text-danger error-message" id="error-account_holder_name"></span>
                             </div>
                             <!-- Account Number -->
                             <div class="col-md-6 mb-3">
                                 <label for="account_number" class="form-label">Account Number</label>
-                                <input type="text" class="form-control" id="account_number" name="account_number" placeholder="Enter account number" value="{{ old('account_number') }}">
+                                <input type="text" class="form-control" id="account_number" name="account_number"
+                                    placeholder="Enter account number" value="{{ old('account_number') }}">
                                 <span class="text-danger error-message" id="error-account_number"></span>
                             </div>
                         </div>
@@ -525,14 +530,44 @@
                 {{-- Investment Details --}}
                 <fieldset class="border p-4 mb-4">
                     <legend class="w-auto">9. Investment Details</legend>
+                    <div class="row" id="display_row" style="display: none;">
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Previous Investment Details</label>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="share_display" id="share_label" class="form-label"
+                                style="display: none;">Share:</label>
+                            <div class="border p-2 rounded bg-light" id="share_display" style="display: none;"></div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="investment_amount_display" id="investment_amount_label" class="form-label"
+                                style="display: none;">
+                                Investment Amount:
+                            </label>
+                            <div class="border p-2 rounded bg-light" id="investment_amount_display"
+                                style="display: none;"></div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="amount_in_words_display" id="amount_in_words_label" class="form-label"
+                                style="display: none;">
+                                Amount in Words:
+                            </label>
+                            <div class="border p-2 rounded bg-light" id="amount_in_words_display" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="share">Shares</label>
                                 <input type="number" class="form-control" id="share" name="share"
-                                    placeholder="Number of Shares" value="{{ old('share') }}" min="1" required>
+                                    placeholder="Number of Shares" value="{{ old('share') }}" min="1">
+                                <span class="text-danger error-message" id="error-share"></span>
                             </div>
-                            <span class="text-danger error-message" id="error-share"></span>
                         </div>
 
                         <div class="col-md-6">
@@ -541,8 +576,8 @@
                                 <input type="text" class="form-control" id="investment_amount"
                                     name="investment_amount" placeholder="Amount" value="{{ old('investment_amount') }}"
                                     readonly>
+                                <span class="text-danger error-message" id="error-investment_amount"></span>
                             </div>
-                            <span class="text-danger error-message" id="error-investment_amount"></span>
                         </div>
 
                     </div>
@@ -552,8 +587,8 @@
                                 <label for="amount_in_words">Amount in Words</label>
                                 <input type="text" class="form-control" id="amount_in_words" name="amount_in_words"
                                     placeholder="Amount in Words" value="{{ old('amount_in_words') }}" readonly>
+                                <span class="text-danger error-message" id="error-amount_in_words"></span>
                             </div>
-                            <span class="text-danger error-message" id="error-amount_in_words"></span>
                         </div>
                     </div>
 
@@ -596,334 +631,5 @@
     </form>
 
     @include('layout.footer')
-
-    <script>
-        // Toggle parent details when the minor checkbox is checked
-        document.getElementById('is_minor').addEventListener('change', function() {
-            var parentDetails = document.getElementById('parent-details');
-            if (this.checked) {
-                parentDetails.style.display = 'block';
-            } else {
-                parentDetails.style.display = 'none';
-            }
-        });
-        // Show parent details if the minor checkbox is pre-checked (for validation errors)
-        window.onload = function() {
-            if (document.getElementById('is_minor').checked) {
-                document.getElementById('parent-details').style.display = 'block';
-            }
-        };
-
-        // toggle form fields based on registration type selection
-        document.addEventListener("DOMContentLoaded", function() {
-            const formContainer = document.getElementById("form-container");
-            const newFormFields = document.getElementById("new-form-fields");
-            const existingField = document.getElementById("existing-form-fields");
-            const existingRadio = document.getElementById("existing_registration");
-            const newRadio = document.getElementById("new_registration");
-            const regNumberField = document.getElementById("reg_number_field");
-            const registeredNumberInput = document.getElementById("registration_number");
-            const submitButton = document.getElementById("submit_button");
-
-            formContainer.style.display = "none";
-            regNumberField.style.display = "none";
-
-            function toggleFormVisibility() {
-                formContainer.style.display = "block";
-                regNumberField.style.display = "none";
-                if (existingRadio.checked) {
-                    newFormFields.style.display = "none";
-                    regNumberField.style.display = "block";
-                    existingField.style.display = "none";
-                    submitButton.style.display = "none";
-                    registeredNumberInput.required = true;
-                } else {
-                    newFormFields.style.display = "block";
-                    regNumberField.style.display = "none";
-                    existingField.style.display = "block";
-                    submitButton.style.display = "block";
-                    registeredNumberInput.required = false;
-                }
-            }
-
-            // Show the form only when a registration type is selected
-            existingRadio.addEventListener("change", toggleFormVisibility);
-            newRadio.addEventListener("change", toggleFormVisibility);
-
-            const form = document.getElementById('registration-form');
-            const responseMessage = document.getElementById('responseMessage');
-
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const formData = new FormData(form);
-
-                fetch(form.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                .content // CSRF token
-                        }
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            return response.json().then(error => {
-                                throw error;
-                            });
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        responseMessage.innerHTML = '<p class="alert alert-success">' + data.message +
-                            '</p>';
-                        form.reset();
-                        form.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                        formContainer.style.display = "none";
-                    })
-                    .catch(error => {
-                        // Clear previous error messages
-                        document.querySelectorAll('.error-message').forEach(el => el.innerHTML = '');
-
-                        if (error.errors) {
-                            let firstErrorKey = null; // To store the first error key for scrolling
-
-                            for (const [key, messages] of Object.entries(error.errors)) {
-                                const errorContainer = document.getElementById(`error-${key}`);
-                                if (errorContainer) {
-                                    errorContainer.innerHTML = messages[0];
-                                    if (!firstErrorKey) firstErrorKey = key;
-                                }
-                            }
-
-                            // Scroll to the first error message if there are any errors
-                            if (firstErrorKey) {
-                                const firstErrorContainer = document.getElementById(
-                                    `error-${firstErrorKey}`);
-                                if (firstErrorContainer) {
-                                    firstErrorContainer.scrollIntoView({
-                                        behavior: 'smooth'
-                                    });
-                                }
-                            }
-                        } else {
-                            responseMessage.innerHTML =
-                                '<p class="alert alert-danger">An error occurred. Please try again.</p>';
-                        }
-                    });
-            });
-        });
-        document.getElementById('search-registration').addEventListener('click', async function() {
-            const registrationNumber = document.getElementById('registration_number').value;
-            const errorMessage = document.getElementById('error-registration_number');
-            const bankDetails = document.getElementById('bank_details');
-
-            errorMessage.textContent = '';
-
-            if (registrationNumber.trim() === '') {
-                errorMessage.textContent = 'Please enter a registration number.';
-                return;
-            }
-
-            try {
-                const response = await fetch(`/search-registration/${registrationNumber}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content')
-                    }
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    const fields = data.data;
-
-                    console.log(fields)
-                    if (bankDetails) {
-                        // Hide bank details by default
-                        bankDetails.style.display = 'none';
-                    }
-                    Object.keys(fields).forEach(key => {
-                        const fieldValue = fields[key];
-
-                        const radios = document.getElementsByName(key);
-                        if (radios.length > 0) {
-                            radios.forEach(radio => {
-                                console.log(radio.value )
-                                radio.checked = (radio.value === fieldValue);
-                                if (radio.value === 'bankDeposit' && fieldValue === 'bankDeposit' ) {
-                                    bankDetails.style.display = 'block';
-                                }
-                            });
-                        }
-
-
-                        const inputField = document.getElementById(key);
-                        if (inputField) {
-                            if (inputField.tagName === 'INPUT' || inputField.tagName === 'TEXTAREA') {
-                                inputField.value = fieldValue || '';
-                            } else if (inputField.tagName === 'SELECT') {
-                                inputField.value = fieldValue || '';
-                            }
-                        }
-
-                        const checkbox = document.getElementById(key);
-                        if (checkbox && checkbox.type === 'checkbox') {
-                            checkbox.checked = Boolean(fieldValue);
-                        }
-                    });
-
-                    const existingField = document.getElementById('existing-form-fields');
-                    const submitButton = document.getElementById("submit_button");
-                    const formContainer = document.getElementById("form-container");
-
-                    if (existingField) {
-                        formContainer.style.display = "block";
-                        existingField.style.display = "block";
-                        submitButton.style.display = "block";
-
-                    }
-                } else {
-                    errorMessage.textContent = data.message || 'No data found.';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                errorMessage.textContent = 'An error occurred. Please try again.';
-            }
-        });
-
-        // Convert number to words (up to millions)
-        function numberToWords(num) {
-            const singleDigits = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
-            const teens = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen",
-                "Nineteen"
-            ];
-            const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
-            const thousands = ["", "Thousand", "Million"];
-
-            if (num === 0) return "Zero";
-
-            let words = "";
-
-            function toWords(n, idx) {
-                if (n === 0) return "";
-
-                let str = "";
-                if (n > 99) {
-                    str += singleDigits[Math.floor(n / 100)] + " Hundred ";
-                    n %= 100;
-                }
-                if (n > 19) {
-                    str += tens[Math.floor(n / 10)] + " ";
-                    n %= 10;
-                } else if (n > 9) {
-                    str += teens[n - 10] + " ";
-                    n = 0;
-                }
-                if (n > 0) {
-                    str += singleDigits[n] + " ";
-                }
-
-                return str.trim() + (idx > 0 ? " " + thousands[idx] : "");
-            }
-
-            let idx = 0;
-            while (num > 0) {
-                const chunk = num % 1000;
-                if (chunk > 0) {
-                    words = toWords(chunk, idx) + " " + words;
-                }
-                num = Math.floor(num / 1000);
-                idx++;
-            }
-
-            return words.trim();
-        }
-
-        // Update investment amount and amount in words
-        document.getElementById('share').addEventListener('input', function() {
-            const shareRate = parseFloat(document.getElementById('share_rate').value);
-            const shares = parseFloat(this.value) || 0;
-            const totalAmount = shares * shareRate;
-
-            document.getElementById('investment_amount').value = totalAmount.toFixed(2);
-            document.getElementById('amount_in_words').value = numberToWords(Math.floor(totalAmount));
-        });
-
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
-        //     const voucherContainer = document.getElementById('voucher-container');
-        //     const bankDetails = document.getElementById('bank_details');
-        //     bankDetails.style.display = 'block';
-        //     // Function to toggle visibility of fields based on payment method
-        //     function toggleFields() {
-        //         const selectedMethod = document.querySelector('input[name="payment_method"]:checked').value;
-
-        //         // Show/hide voucher field based on payment method
-        //         if (selectedMethod === 'cash') {
-        //             voucherContainer.style.display = 'none'; // Hide voucher for "Cash"
-        //         } else {
-        //             voucherContainer.style.display = 'block'; // Show voucher for other methods
-        //         }
-
-        //         // Show/hide bank details field based on payment method
-        //         if (selectedMethod === 'bankDeposit') {
-        //             bankDetails.style.display = 'block'; // Show bank details for "Bank Deposit"
-        //         } else {
-        //             bankDetails.style.display = 'none'; // Hide bank details for other methods
-        //         }
-        //     }
-
-        //     // Attach change event listeners to all payment method radio buttons
-        //     paymentMethods.forEach((radio) => {
-        //         radio.addEventListener('change', toggleFields);
-        //     });
-
-        //     // Run the function on page load to handle pre-selected values
-        //     toggleFields();
-        // });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
-            const voucherContainer = document.getElementById('voucher-container');
-            const bankDetails = document.getElementById('bank_details');
-            bankDetails.style.display = 'none';
-            // Function to toggle visibility of fields based on payment method
-            function toggleFields() {
-                const selectedMethod = document.querySelector('input[name="payment_method"]:checked');
-
-                // If no payment method is selected, return early
-                if (!selectedMethod) return;
-
-                const selectedMethodValue = selectedMethod.value;
-
-                // Show/hide voucher field based on payment method
-                if (selectedMethodValue === 'cash') {
-                    voucherContainer.style.display = 'none'; // Hide voucher for "Cash"
-                } else {
-                    voucherContainer.style.display = 'block'; // Show voucher for other methods
-                }
-
-                // Show/hide bank details field based on payment method
-                if (selectedMethodValue === 'bankDeposit') {
-                    bankDetails.style.display = 'block'; // Show bank details for "Bank Deposit"
-                } else {
-                    bankDetails.style.display = 'none'; // Hide bank details for other methods
-                }
-            }
-
-            // Attach change event listeners to all payment method radio buttons
-            paymentMethods.forEach((radio) => {
-                radio.addEventListener('change', toggleFields);
-            });
-
-            // Run the function on page load to handle pre-selected values
-            toggleFields();
-        });
-
-    </script>
+    <script src="{{ asset('js/registration.js') }}"></script>
 @endsection

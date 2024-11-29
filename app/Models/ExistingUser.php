@@ -51,6 +51,10 @@ class ExistingUser extends Model
         'bank_name',
         'bank_branch',
         'account_holder_name',
+        'account_number',
+        'bank_name',
+        'bank_branch',
+        'account_holder_name',
         'account_number'
     ];
 
