@@ -135,13 +135,7 @@ class AdminController extends Controller
 
     public function show($id, $type)
     {
-        if ($type === 'existing') {
-            $data = NewUser::findOrFail($id);
-        } elseif ($type === 'new') {
-            $data = NewUser::findOrFail($id);
-        } else {
-            return redirect()->route('admin.existingusers')->withErrors('Invalid user type.');
-        }
+        $data = NewUser::with('investmentDetailsById')->findOrFail($id);
 
         return view('admin.view', [
             'user' => $data,
@@ -205,7 +199,9 @@ class AdminController extends Controller
                         'bank_name',
                         'bank_branch',
                         'account_holder_name',
-                        'account_number'
+                        'account_number',
+                        'referred_by',
+                        'terms_conditions',
                     ]),
                     $investmentData
                 )

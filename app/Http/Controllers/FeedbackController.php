@@ -86,6 +86,8 @@ class FeedbackController extends Controller
             'bank_branch' => 'required_if:payment_method,bankDeposit',
             'account_holder_name' => 'required_if:payment_method,bankDeposit',
             'account_number' => 'required_if:payment_method,bankDeposit',
+            'referred_by' => 'nullable|string',
+            'terms_conditions' => 'accepted',
         ];
 
         $existingRules = [
@@ -104,6 +106,7 @@ class FeedbackController extends Controller
                 : $request->input('registration_number');
 
             $validated['accept_terms'] = $request->has('accept_terms') ? 1 : 0;
+            $validated['terms_conditions'] = $request->has('terms_conditions') ? 1 : 0;
 
             $validated['is_exist'] = $registrationType === 'existing' ? 1 : 0;
 
@@ -155,6 +158,7 @@ class FeedbackController extends Controller
                 'share' => $validated['share'],
                 'amount_in_words' => $validated['amount_in_words'],
                 'investment_amount' => $validated['investment_amount'],
+                'new_user_id' => $newUser->id,
             ];
 
             // Insert investment details

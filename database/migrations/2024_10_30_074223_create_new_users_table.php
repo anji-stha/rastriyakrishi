@@ -74,13 +74,21 @@ return new class extends Migration
             $table->string('account_holder_name')->nullable();
             $table->string('account_number')->nullable();
             $table->boolean('is_exist')->default(false);
+            $table->string('referred_by')->nullable();
+            $table->boolean('terms_conditions')->default(false);
             $table->timestamps();
         });
 
         // Create the pivot table for investment_details
         Schema::create('investment_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('new_user_id'); // Foreign key for new_users id
             $table->string('registration_number', 100);
+            $table->foreign('new_user_id') // Foreign key for new_users id
+                ->references('id')
+                ->on('new_users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->foreign('registration_number') // Foreign key for registration_number
                 ->references('registration_number')
                 ->on('new_users')

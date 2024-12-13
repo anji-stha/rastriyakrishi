@@ -530,9 +530,41 @@
                 {{-- Investment Details --}}
                 <fieldset class="border p-4 mb-4">
                     <legend class="w-auto">9. Investment Details</legend>
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label fw-bold">A. Investment Commitment</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="share">Shares</label>
+                                <input type="number" class="form-control" id="share" name="share"
+                                    placeholder="Number of Shares" value="{{ old('share') }}" min="1">
+                                <span class="text-danger error-message" id="error-share"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="investment_amount">Investment Amount</label>
+                                <input type="text" class="form-control" id="investment_amount"
+                                    name="investment_amount" placeholder="Amount" value="{{ old('investment_amount') }}"
+                                    readonly>
+                                <span class="text-danger error-message" id="error-investment_amount"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="amount_in_words">Amount in Words</label>
+                                <input type="text" class="form-control" id="amount_in_words" name="amount_in_words"
+                                    placeholder="Amount in Words" value="{{ old('amount_in_words') }}" readonly>
+                                <span class="text-danger error-message" id="error-amount_in_words"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row" id="display_row" style="display: none;">
                         <div class="col-12">
-                            <label class="form-label fw-bold">Previous Investment Details</label>
+                            <label class="form-label fw-bold">B. Initial Investment</label>
                         </div>
 
                         <div class="col-md-4 mb-3">
@@ -560,45 +592,50 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="share">Shares</label>
-                                <input type="number" class="form-control" id="share" name="share"
-                                    placeholder="Number of Shares" value="{{ old('share') }}" min="1">
-                                <span class="text-danger error-message" id="error-share"></span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="investment_amount">Investment Amount</label>
-                                <input type="text" class="form-control" id="investment_amount"
-                                    name="investment_amount" placeholder="Amount" value="{{ old('investment_amount') }}"
-                                    readonly>
-                                <span class="text-danger error-message" id="error-investment_amount"></span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="amount_in_words">Amount in Words</label>
-                                <input type="text" class="form-control" id="amount_in_words" name="amount_in_words"
-                                    placeholder="Amount in Words" value="{{ old('amount_in_words') }}" readonly>
-                                <span class="text-danger error-message" id="error-amount_in_words"></span>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Hidden field for share rate -->
                     <input type="hidden" id="share_rate" value="{{ $shareRate ? $shareRate->rate : 0 }}" />
                 </fieldset>
 
+                {{-- Terms and conditions --}}
+                <fieldset class="border p-4 mb-4">
+                    <legend class="w-auto">10. Terms & Conditions</legend>
+                    <div class="form-group">
+                        <label class="form-check-label" for="terms_conditions">
+                            <strong>लगानीकर्ताको लागि कम्पनीको नियम र शर्तहरू</strong><br />
+                            <ul>
+                                <li>१. शेयर/अग्रिम लगानी (सापटी) राष्ट्रिय कृषि कम्पनी नेपाल लि. का नियम र शर्तहरूको अधीनमा
+                                    रहनेछ।</li>
+                                <li>२. कम्पनीले कुनै पनि आवेदन स्वीकृत वा अस्वीकृत गर्ने अधिकार राख्दछ।</li>
+                                <li>३. लगानीकर्ताले कम्पनीद्वारा तोकिएका तथा समय समयमा तोकिने सबै नियम र शर्तहरू पालना गर्न
+                                    सहमत हुनुपर्दछ।</li>
+                                <li>४. कम्पनीद्धारा तोकिएको अवस्था बाहेक लगानी रकम अव्यवहार्य र अस्थानान्तरणीय हुनेछ।</li>
+                                <li>५. लगानीकर्ताले साँचो र यथार्थ जानकारी उपलब्ध गराउनु पर्दछ। कुनै पनि गलत जानकारीको
+                                    परिणामस्वरूप आवेदन अस्वीकृत हुन सक्छ र लगानीकर्ता स्वंयले परिस्थितिको सामाना
+                                    गर्नुपर्नेछ।</li>
+                                <li>६. लगानीकर्ताले कम्पनीको प्रबन्ध पत्र तथा नियमावली तथा कम्पनी सम्बन्धि कानून तथा प्रचलित
+                                    कानून पालना गर्नुपर्नेछ।</li>
+                                <li>७. लगानीकर्ताले रकम जम्मा गर्दा वा कारोबार गर्दा कम्पनीको बैंक खाता मार्फत मात्रै
+                                    गर्नुपर्दछ। कुनै पनि व्यक्तिको नाममा रकम वा चेक दिन वा जारी गर्नु हुदैन।</li>
+                            </ul>
+                            <p><strong>नोट:</strong> कम्पनीको सम्बन्धमा कुनै जानकारी चाहियमा वा सम्पर्क गर्नुपरेमा कम्पनीको
+                                ईमेल साथै कम्पनीको आधिकारीक व्यक्ति वा मोबाईल नम्बर <strong>015922911</strong> मा सम्पर्क
+                                गर्न सक्नुहुनेछ।</p>
+                        </label>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="terms_conditions"
+                                name="terms_conditions" {{ old('terms_conditions') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="terms_conditions">
+                                I Agree
+                            </label>
+                        </div>
+                        <span class="text-danger error-message" id="error-terms_conditions"></span>
+                    </div>
+                </fieldset>
+
                 <!-- Declaration and Submit -->
                 <fieldset class="border p-4 mb-4">
-                    <legend class="w-auto">10. Self-Declaration</legend>
+                    <legend class="w-auto">11. Self-Declaration</legend>
                     <div class="form-group">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="accept_terms" name="accept_terms"
@@ -619,6 +656,15 @@
                                 2MB)</small></label>
                         <input type="file" class="form-control" id="signature" name="signature">
                         <span class="text-danger error-message" id="error-signature"></span>
+                    </div>
+                </fieldset>
+
+                <fieldset class="border p-4 mb-4">
+                    <div class="form-group">
+                        <label for="referred_by">Referred By</label>
+                        <input type="text" name="referred_by" id="referred_by" class="form-control"
+                            placeholder="Referred By">
+                        <span class="text-danger error-message" id="error-referred_by"></span>
                     </div>
                 </fieldset>
             </div>

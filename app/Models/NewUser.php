@@ -71,6 +71,8 @@ class NewUser extends Model
         'account_number',
         'registration_number',
         'is_exist',
+        'referred_by',
+        'terms_conditions',
     ];
 
     // You can set default values for the status attribute
@@ -81,5 +83,10 @@ class NewUser extends Model
     public function investmentDetails()
     {
         return $this->hasMany(InvestmentDetail::class, 'registration_number', 'registration_number');
+    }
+
+    public function investmentDetailsById()
+    {
+        return $this->hasOne(InvestmentDetail::class, 'new_user_id', 'id');
     }
 }

@@ -12,6 +12,7 @@ class InvestmentDetail extends Model
     protected $table = 'investment_details';
 
     protected $fillable = [
+        'new_user_id',
         'registration_number',
         'share',
         'investment_amount',
@@ -19,8 +20,13 @@ class InvestmentDetail extends Model
     ];
 
     // Define the relationship with the NewUser model
-    public function newUser()
+    public function newUserByRegNumber()
     {
         return $this->belongsTo(NewUser::class, 'registration_number', 'registration_number');
+    }
+
+    public function newUserById()
+    {
+        return $this->belongsTo(NewUser::class, 'new_user_id', 'id');
     }
 }
