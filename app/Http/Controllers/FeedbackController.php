@@ -43,6 +43,9 @@ class FeedbackController extends Controller
             'national_id_no' => $request->is_minor ? 'nullable|string' : 'required|string',
             'national_id' => $request->is_minor ? 'nullable|file|mimes:jpg,jpeg,png|max:2048' : 'required|file|mimes:jpg,jpeg,png|max:2048',
             'birth_certificate' => 'required_if:is_minor,1|file|mimes:jpeg,jpg,png|max:2048',
+            'share_initial' => 'required|numeric',
+            'investment_amount_initial' => 'nullable|numeric',
+            'amount_in_words_initial' => 'nullable|string|max:255',
         ];
 
         $commonRules = [
@@ -82,12 +85,14 @@ class FeedbackController extends Controller
             'accept_terms' => 'accepted',
             'signature' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
             'voucher' => 'required_if:payment_method,cheque,bankDeposit,ips|file|mimes:jpg,jpeg,png|max:2048',
-            'bank_name' => 'required_if:payment_method,bankDeposit',
-            'bank_branch' => 'required_if:payment_method,bankDeposit',
-            'account_holder_name' => 'required_if:payment_method,bankDeposit',
-            'account_number' => 'required_if:payment_method,bankDeposit',
+            'bank_name' => 'required_if:payment_method,cheque',
+            'bank_branch' => 'required_if:payment_method,cheque',
+            'account_holder_name' => 'required_if:payment_method,cheque',
+            'account_number' => 'required_if:payment_method,cheque',
             'referred_by' => 'nullable|string',
             'terms_conditions' => 'accepted',
+            'cheque_no' => 'required_if:payment_method,cheque',
+            'cheque_amount' => 'required_if:payment_method,cheque',
         ];
 
         $existingRules = [
@@ -158,6 +163,9 @@ class FeedbackController extends Controller
                 'share' => $validated['share'],
                 'amount_in_words' => $validated['amount_in_words'],
                 'investment_amount' => $validated['investment_amount'],
+                'share_initial' => $validated['share_initial'] ?? 0.00,
+                'amount_in_words_initial' => $validated['amount_in_words_initial'] ?? '',
+                'investment_amount_initial' => $validated['investment_amount_initial'] ?? 0.00,
                 'new_user_id' => $newUser->id,
             ];
 

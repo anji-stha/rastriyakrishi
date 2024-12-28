@@ -26,9 +26,15 @@ document.addEventListener("DOMContentLoaded", function () {
         "registration_number"
     );
     const submitButton = document.getElementById("submit_button");
-
+    const initialInvestment = document.getElementById("display_initial_investment");
     formContainer.style.display = "none";
     regNumberField.style.display = "none";
+
+    registeredNumberInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault();  // Prevent form submission
+        }
+    });
 
     function toggleFormVisibility() {
         document
@@ -55,12 +61,14 @@ document.addEventListener("DOMContentLoaded", function () {
             regNumberField.style.display = "block";
             existingField.style.display = "none";
             submitButton.style.display = "none";
+            initialInvestment.style.display = "none";
             registeredNumberInput.required = true;
         } else {
             newFormFields.style.display = "block";
             regNumberField.style.display = "none";
             existingField.style.display = "block";
             submitButton.style.display = "block";
+            initialInvestment.style.display = "flex";
             registeredNumberInput.required = false;
         }
     }
@@ -149,7 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
 // Search existing using registration number
 document
     .getElementById("search-registration")
-    .addEventListener("click", async function () {
+    .addEventListener("click", async function (e) {
+        e.preventDefault()
         const registrationNumber = document.getElementById(
             "registration_number"
         ).value;
@@ -199,7 +208,7 @@ document
                             radio.checked = radio.value === fieldValue;
 
                             if (radio.checked) {
-                                if (radio.value === "bankDeposit") {
+                                if (radio.value === "cheque") {
                                     bankDetails.style.display = "block";
                                     voucherContainer.style.display = "block";
                                 } else if (radio.value === "cash") {
@@ -370,6 +379,17 @@ document.getElementById("share").addEventListener("input", function () {
     );
 });
 
+document.getElementById("share_initial").addEventListener("input", function () {
+    const shareRate = parseFloat(document.getElementById("share_rate").value);
+    const shares = parseFloat(this.value) || 0;
+    const totalAmount = shares * shareRate;
+
+    document.getElementById("investment_amount_initial").value = totalAmount.toFixed(2);
+    document.getElementById("amount_in_words_initial").value = numberToWords(
+        Math.floor(totalAmount)
+    );
+});
+
 // Payment method
 document.addEventListener("DOMContentLoaded", function () {
     const paymentMethods = document.querySelectorAll(
@@ -394,7 +414,7 @@ document.addEventListener("DOMContentLoaded", function () {
             voucherContainer.style.display = "block";
         }
 
-        if (selectedMethodValue === "bankDeposit") {
+        if (selectedMethodValue === "cheque") {
             bankDetails.style.display = "block";
         } else {
             bankDetails.style.display = "none";

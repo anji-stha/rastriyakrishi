@@ -69,6 +69,8 @@ class NewUser extends Model
         'bank_branch',
         'account_holder_name',
         'account_number',
+        'cheque_no',
+        'cheque_amount',
         'registration_number',
         'is_exist',
         'referred_by',

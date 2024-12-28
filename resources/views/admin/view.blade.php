@@ -422,7 +422,7 @@
                         <label class="form-check-label" for="ips">IPS</label>
                     </div>
                 </div>
-                @if ($user->payment_method == 'bankDeposit')
+                @if ($user->payment_method == 'cheque')
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -448,6 +448,21 @@
                                 <input type="text" class="form-control" id="account_number" name="account_number"
                                     placeholder="Enter account number" value="{{ $user->account_number }}" readonly>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Cheque Number -->
+                        <div class="col-md-6 mb-3">
+                            <label for="cheque_no" class="form-label">Cheque Number</label>
+                            <input type="text" class="form-control" id="cheque_no"
+                                name="cheque_no" placeholder="Enter cheque number"
+                                value="{{ $user->cheque_no }}" readonly>
+                        </div>
+                        <!-- Cheque Amount -->
+                        <div class="col-md-6 mb-3">
+                            <label for="cheque_amount" class="form-label">Cheque Amount</label>
+                            <input type="text" class="form-control" id="cheque_amount" name="cheque_amount"
+                                placeholder="Enter cheque amount" value="{{ $user->cheque_no }}" readonly>
                         </div>
                     </div>
                 @endif
@@ -522,6 +537,9 @@
             <fieldset class="border p-4 mb-4">
                 <legend class="w-auto">9. Investment Details</legend>
                 <div class="row">
+                    <div class="col-12">
+                        <label class="form-label fw-bold">A. Investment Commitment</label>
+                    </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="share">Shares</label>
@@ -543,6 +561,35 @@
                             <input type="text" class="form-control" id="amount_in_words" name="amount_in_words"
                                 placeholder="Amount in Words" value="{{ $user->investmentDetailsById ? $user->investmentDetailsById->amount_in_words  : ''}}"
                                 readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="display_initial_investment" >
+                    <div class="col-12">
+                        <label class="form-label fw-bold">B. Initial Investment</label>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="share_initial">Shares</label>
+                            <input type="number" class="form-control" id="share_initial" name="share_initial"
+                                placeholder="Number of Shares" value="{{ $user->investmentDetailsById ? $user->investmentDetailsById->share_initial : '' }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="investment_amount_initial">Investment Amount</label>
+                            <input type="text" class="form-control" id="investment_amount_initial"
+                                name="investment_amount_initial" placeholder="Amount" value="{{ $user->investmentDetailsById ? $user->investmentDetailsById->investment_amount_initial : '' }}"
+                                readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="amount_in_words_initial">Amount in Words</label>
+                            <input type="text" class="form-control" id="amount_in_words_initial" name="amount_in_words_initial"
+                                placeholder="Amount in Words" value="{{ $user->investmentDetailsById ? $user->investmentDetailsById->amount_in_words_initial  : ''}}" readonly>
                         </div>
                     </div>
                 </div>

@@ -17,6 +17,9 @@ class InvestmentDetail extends Model
         'share',
         'investment_amount',
         'amount_in_words',
+        'share_initial',
+        'investment_amount_initial',
+        'amount_in_words_initial',
     ];
 
     // Define the relationship with the NewUser model

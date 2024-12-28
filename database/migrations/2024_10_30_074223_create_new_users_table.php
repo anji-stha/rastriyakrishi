@@ -73,6 +73,8 @@ return new class extends Migration
             $table->string('bank_branch')->nullable();
             $table->string('account_holder_name')->nullable();
             $table->string('account_number')->nullable();
+            $table->string('cheque_no')->nullable();
+            $table->string('cheque_amount')->nullable();
             $table->boolean('is_exist')->default(false);
             $table->string('referred_by')->nullable();
             $table->boolean('terms_conditions')->default(false);
@@ -97,6 +99,9 @@ return new class extends Migration
             $table->decimal('share', 15, 2)->nullable();
             $table->decimal('investment_amount', 15, 2)->nullable();
             $table->string('amount_in_words', 255)->nullable();
+            $table->decimal('share_initial', 15, 2)->nullable();
+            $table->decimal('investment_amount_initial', 15, 2)->nullable();
+            $table->string('amount_in_words_initial', 255)->nullable();
             $table->timestamps();
         });
     }

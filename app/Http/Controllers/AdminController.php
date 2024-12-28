@@ -202,6 +202,8 @@ class AdminController extends Controller
                         'account_number',
                         'referred_by',
                         'terms_conditions',
+                        'cheque_no',
+                        'cheque_amount',
                     ]),
                     $investmentData
                 )

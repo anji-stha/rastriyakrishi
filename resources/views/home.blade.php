@@ -471,6 +471,23 @@
                                 <span class="text-danger error-message" id="error-account_number"></span>
                             </div>
                         </div>
+                        <div class="row">
+                            <!-- Cheque Number -->
+                            <div class="col-md-6 mb-3">
+                                <label for="cheque_no" class="form-label">Cheque Number</label>
+                                <input type="text" class="form-control" id="cheque_no"
+                                    name="cheque_no" placeholder="Enter cheque number"
+                                    value="{{ old('cheque_no') }}">
+                                <span class="text-danger error-message" id="error-cheque_no"></span>
+                            </div>
+                            <!-- Cheque Amount -->
+                            <div class="col-md-6 mb-3">
+                                <label for="cheque_amount" class="form-label">Cheque Amount</label>
+                                <input type="text" class="form-control" id="cheque_amount" name="cheque_amount"
+                                    placeholder="Enter cheque amount" value="{{ old('cheque_amount') }}">
+                                <span class="text-danger error-message" id="error-cheque_amount"></span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group" id="voucher-container">
@@ -559,6 +576,38 @@
                                 <input type="text" class="form-control" id="amount_in_words" name="amount_in_words"
                                     placeholder="Amount in Words" value="{{ old('amount_in_words') }}" readonly>
                                 <span class="text-danger error-message" id="error-amount_in_words"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="display_initial_investment" style="display: none;">
+                        <div class="col-12">
+                            <label class="form-label fw-bold">B. Initial Investment</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="share_initial">Shares</label>
+                                <input type="number" class="form-control" id="share_initial" name="share_initial"
+                                    placeholder="Number of Shares" value="{{ old('share_initial') }}" min="1">
+                                <span class="text-danger error-message" id="error-share_initial"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="investment_amount_initial">Investment Amount</label>
+                                <input type="text" class="form-control" id="investment_amount_initial"
+                                    name="investment_amount_initial" placeholder="Amount" value="{{ old('investment_amount_initial') }}"
+                                    readonly>
+                                <span class="text-danger error-message" id="error-investment_amount_initial"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="amount_in_words_initial">Amount in Words</label>
+                                <input type="text" class="form-control" id="amount_in_words_initial" name="amount_in_words_initial"
+                                    placeholder="Amount in Words" value="{{ old('amount_in_words_initial') }}" readonly>
+                                <span class="text-danger error-message" id="error-amount_in_words_initial"></span>
                             </div>
                         </div>
                     </div>
