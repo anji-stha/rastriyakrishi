@@ -49,6 +49,8 @@
                     <td>
                         <a href="{{ route('admin.show', ['id' => $user->id, 'type' => 'existing']) }}"
                             class="btn btn-info btn-sm">View</a>
+                        <a href="{{ route('admin.edit', ['id' => $user->id, 'type' => 'existing']) }}"
+                            class="btn btn-info btn-sm">Edit</a>
                     </td>
                 </tr>
             @endforeach

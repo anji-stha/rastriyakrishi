@@ -42,7 +42,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::post('user/{id}/approve/{type}', [AdminController::class, 'approve'])->name('admin.approve');
     Route::post('user/{id}/disapprove', [AdminController::class, 'disapprove'])->name('admin.disapprove');
-    Route::get('user/{id}/{type}', [AdminController::class, 'show'])->name('admin.show');
+    Route::get('user/show/{id}/{type}', [AdminController::class, 'show'])->name('admin.show');
+    Route::get('user/edit/{id}/{type}', [FeedbackController::class, 'edit'])->name('admin.edit');
+    Route::put('user/edit/{id}/{type}', [FeedbackController::class, 'update'])->name('admin.update');
+
     Route::get('newusers', [AdminController::class, 'getNewUsers'])->name('admin.newusers');
     Route::get('existingusers', [AdminController::class, 'getExistingUsers'])->name('admin.existingusers');
     Route::resource('notices', NoticeController::class);
@@ -50,6 +53,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('share-rate', [AdminController::class, 'showShareRateForm'])->name('admin.sharerate');
     Route::post('share-rate', [AdminController::class, 'setShareRate'])->name('admin.saveshare');
     Route::get('download', [AdminController::class, 'downloadFile'])->name('download.file');
+
     Route::get('brochure', [BrochureController::class, 'index'])->name('brochure.index');
     Route::get('brochure/upload', [BrochureController::class, 'showUpload'])->name('brochure.upload.form');
     Route::post('brochure', [BrochureController::class, 'upload'])->name('brochure.upload');
